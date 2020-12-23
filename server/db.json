@@ -1,0 +1,24 @@
+{
+  "regione": [
+    {"id": 1, "name": "Piemonte", "population": 4329008 , "positive": 38091},
+    {"id": 2, "name": "Valle d'Aosta", "population": 124968 , "positive": 472 },
+    {"id": 3, "name": "Lombardia", "population": 10060965 , "positive": 68781},
+    {"id": 4, "name": "Trentino-Alto Adige", "population": 1074464 , "positive": 12500},
+    {"id": 5, "name": "Veneto", "population": 4894077 , "positive": 100089},
+    {"id": 6, "name": "Friuli-Venezia Giulia", "population": 1207918 , "positive": 13262},
+    {"id": 7, "name": "Liguria", "population": 1534407 , "positive": 6835},
+    {"id": 8, "name": "Emilia Romagna", "population": 4455114 , "positive": 60916},
+    {"id": 9, "name": "Toscana", "population": 3709139 , "positive": 12806},
+    {"id": 10, "name": "Umbria", "population": 877697 , "positive": 3883},
+    {"id": 11, "name": "Marche", "population": 1511648 , "positive": 9761},
+    {"id": 12, "name": "Lazio", "population": 5846850 , "positive": 76780},
+    {"id": 13, "name": "Abruzzo", "population": 1288385 , "positive": 13040},
+    {"id": 14, "name": "Molise", "population": 300116 , "positive": 2747},
+    {"id": 15, "name": "Campania", "population": 5767467 , "positive": 83966},
+    {"id": 16, "name": "Puglia", "population": 3991140 , "positive": 53872},
+    {"id": 17, "name": "Basilicata", "population": 554086 , "positive": 6005},
+    {"id": 18, "name": "Calabria", "population": 1913845 , "positive": 8496},
+    {"id": 19, "name": "Sicilia", "population": 4948034 , "positive": 33883},
+    {"id": 20, "name": "Sardegna", "population": 1624216 , "positive": 15836}
+  ]
+}
