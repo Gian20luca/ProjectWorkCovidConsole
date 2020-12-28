@@ -14,37 +14,55 @@ import { Component } from '@angular/core';
             (ngSubmit)="onSubmit(f.value)"
           >
             <label>Soglia inferiore:</label>
-            Soglia attuale: {{ response.minPositiveThresholds }}
             <input
               name="minPositiveThresholds"
-              [ngModel]
+              [ngModel]=response.minPositiveThresholds
               type="number"
               class="form-control"
               placeholder="Inserisci soglia inferiore"
               id="minPositiveThresholds"
-              required
-              #minPositiveThresholds="ngModel"
-              [ngClass]="{
-                'is-invalid': minPositiveThresholds.invalid && f.dirty
-              }"
+
             />
 
             <br />
             <label>Soglia Superiore:</label>
-            Soglia attuale: {{ response.maxPositiveThresholds }}
             <input
               name="maxPositiveThresholds"
-              [ngModel]
+              [ngModel]=response.maxPositiveThresholds
               type="number"
               class="form-control"
               placeholder="Inserisci soglia superiore"
               id="maxPositiveThresholds"
-              required
-              #maxPositiveThresholds="ngModel"
-              [ngClass]="{
-                'is-invalid': maxPositiveThresholds.invalid && f.dirty
-              }"
             />
+            <br />
+            <label>Modifica Colore Primo Range</label>
+
+            <input
+              type="color"
+              name="minColorPositiveThresholds"
+              [ngModel]="response.minColorPositiveThresholds"
+              class="form-control"
+              id="minColorPositiveThresholds"
+            />
+
+            <br />
+
+            <label>Modifica Colore Secondo Range</label>
+            <input
+              type="color"
+              name="mediumColorPositiveThresholds"
+              [ngModel]="response.mediumColorPositiveThresholds"
+              class="form-control"
+              id="mediumColorPositiveThresholds">
+            <br />
+
+            <label>Modifica Colore Terzo Range</label>
+            <input
+              type="color"
+              name="maxColorPositiveThresholds"
+              [ngModel]="response.maxColorPositiveThresholds"
+              class="form-control"
+              id="maxColorPositiveThresholds">
             <br />
             <button
               class="btn"
@@ -74,7 +92,7 @@ export class ManagepositivethresholdsComponent {
   constructor(private http: HttpClient) {
     this.http
       .get('http://localhost:3000/soglie/1')
-      .subscribe((res) => (this.response = res));
+      .subscribe((res) => (this.response = res) );
   }
   onSubmit(value: any) {
     this.http

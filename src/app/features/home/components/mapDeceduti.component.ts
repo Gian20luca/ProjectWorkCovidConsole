@@ -148,13 +148,6 @@ export class MapDeathsComponent implements OnInit {
         click: ShowDetails
       });
       layer.bindTooltip(features.properties.reg_name);
-      // layer.bindPopup(
-      //   "<span style='font-size:10px'>" +
-      //     features.properties.reg_name +
-      //     '<br>' +
-      //     this.risposta[0][features.properties.reg_istat_code_num - 1].deaths +
-      //     '</span>'
-      // );
     };
 
     //controllo dei positivi per assegnare la colorazione alla regione
@@ -195,7 +188,7 @@ export class MapDeathsComponent implements OnInit {
       }
     };
 
-    //chiamate alle 2 api per fare il fork ed avere un array con le 2 risposte
+    //chiamate alle 3 api per fare il fork ed avere un array con le 3 risposte
     let MyJson = this.http.get<GeoJsonObject>('http://localhost:3000/regione');
     let MyJsonSoglie = this.http.get<GeoJsonObject>(
       'http://localhost:3000/soglie'
@@ -225,6 +218,24 @@ export class MapDeathsComponent implements OnInit {
           }
         },
       }).addTo(map);
+      const legend = L.control.attribution({ position: 'bottomleft' });
+
+      legend.onAdd = map => {
+        let div = L.DomUtil.create('div'),
+          grades = [this.risposta[2][1].minDeathsThresholds,this.risposta[2][1].maxDeathsThresholds],
+          labels = [this.risposta[2][1].minColorDeathsThresholds,this.risposta[2][1].mediumColorDeathsThresholds,this.risposta[2][1].maxColorDeathsThresholds];
+
+
+
+          div.innerHTML = '<div style="border: 1px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:7px;border-radius:15px;"> <i class="fa fa-square" style="color:' + labels[0] + '"></i> ' + '0-'+grades[0] + '<br>' + '<i class="fa fa-square" style="color:' + labels[1] + '"></i> ' + grades[0] + '-' + grades[1] + '<br>' + '<i class="fa fa-square" style="color:' + labels[2] + '"></i> ' + grades[1]+'+</div>';
+
+
+
+
+        return div;
+      };
+
+      legend.addTo(map);
     });
   }
   closeShowDetails(){

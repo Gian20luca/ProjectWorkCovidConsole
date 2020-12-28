@@ -14,36 +14,54 @@ import { Component, OnInit } from '@angular/core';
             (ngSubmit)="onSubmit(f.value)"
           >
             <label>Soglia inferiore:</label>
-            Soglia attuale: {{ response.minDeathsThresholds }}
             <input
               name="minDeathsThresholds"
-              [ngModel]
+              [ngModel]=response.minDeathsThresholds
               type="number"
               class="form-control"
               placeholder="Inserisci soglia inferiore"
               id="minDeathsThresholds"
-              required
-              #minDeathsThresholds="ngModel"
-              [ngClass]="{
-                'is-invalid': minDeathsThresholds.invalid && f.dirty
-              }"
             />
             <br />
             <label>Soglia Superiore:</label>
-            Soglia attuale: {{ response.maxDeathsThresholds }}
             <input
               name="maxDeathsThresholds"
-              [ngModel]
+              [ngModel]=response.maxDeathsThresholds
               type="number"
               class="form-control"
               placeholder="Inserisci soglia superiore"
               id="maxDeathsThresholds"
-              required
-              #maxDeathsThresholds="ngModel"
-              [ngClass]="{
-                'is-invalid': maxDeathsThresholds.invalid && f.dirty
-              }"
+
             />
+            <br />
+            <label>Modifica Colore Primo Range</label>
+
+            <input
+              type="color"
+              name="minColorDeathsThresholds"
+              [ngModel]="response.minColorDeathsThresholds"
+              class="form-control"
+              id="minColorDeathsThresholds"
+            />
+
+            <br />
+
+            <label>Modifica Colore Secondo Range</label>
+            <input
+              type="color"
+              name="mediumColorDeathsThresholds"
+              [ngModel]="response.mediumColorDeathsThresholds"
+              class="form-control"
+              id="mediumColorDeathsThresholds">
+            <br />
+
+            <label>Modifica Colore Terzo Range</label>
+            <input
+              type="color"
+              name="maxColorDeathsThresholds"
+              [ngModel]="response.maxColorDeathsThresholds"
+              class="form-control"
+              id="maxColorDeathsThresholds">
             <br />
             <button
               class="btn"

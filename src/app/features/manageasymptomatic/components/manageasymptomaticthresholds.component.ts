@@ -14,36 +14,53 @@ import { Component } from '@angular/core';
             (ngSubmit)="onSubmit(f.value)"
           >
             <label>Soglia inferiore:</label>
-            Soglia attuale: {{ response.minAsymptomaticThresholds }}
             <input
               name="minAsymptomaticThresholds"
-              [ngModel]
+              [ngModel]=response.minAsymptomaticThresholds
               type="number"
               class="form-control"
               placeholder="Inserisci soglie inferiore"
               id="minAsymptomaticThresholds"
-              required
-              #minAsymptomaticThresholds="ngModel"
-              [ngClass]="{
-                'is-invalid': minAsymptomaticThresholds.invalid && f.dirty
-              }"
             />
             <br />
             <label>Soglia Superiore:</label>
-            Soglia attuale: {{ response.maxAsymptomaticThresholds }}
             <input
               name="maxAsymptomaticThresholds"
-              [ngModel]
+              [ngModel]=response.maxAsymptomaticThresholds
               type="number"
               class="form-control"
               placeholder="Inserisci soglie superiore"
               id="maxAsymptomaticThresholds"
-              required
-              #maxAsymptomaticThresholds="ngModel"
-              [ngClass]="{
-                'is-invalid': maxAsymptomaticThresholds.invalid && f.dirty
-              }"
             />
+            <br />
+            <label>Modifica Colore Primo Range</label>
+
+            <input
+              type="color"
+              name="minColorAsymptomaticThresholds"
+              [ngModel]="response.minColorAsymptomaticThresholds"
+              class="form-control"
+              id="minColorAsymptomaticThresholds"
+            />
+
+            <br />
+
+            <label>Modifica Colore Secondo Range</label>
+            <input
+              type="color"
+              name="mediumColorAsymptomaticThresholds"
+              [ngModel]="response.mediumColorAsymptomaticThresholds"
+              class="form-control"
+              id="mediumColorAsymptomaticThresholds">
+            <br />
+
+            <label>Modifica Colore Terzo Range</label>
+            <input
+              type="color"
+              name="maxColorAsymptomaticThresholds"
+              [ngModel]="response.maxColorAsymptomaticThresholds"
+              class="form-control"
+              id="maxColorAsymptomaticThresholds">
             <br />
             <button
               class="btn"
