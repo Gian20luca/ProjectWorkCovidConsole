@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 
 @Component({
   selector: 'app-managepositiveinput',
@@ -66,7 +67,7 @@ import { Component } from '@angular/core';
               class="btn"
               [disabled]="f.invalid"
               [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-              (click)="goToMapPositive()"
+              (click)="goToMap()"
             >
               Salva
             </button>
@@ -95,7 +96,19 @@ export class ManagepositiveinputComponent {
 
   constructor(private http: HttpClient) {}
 
-  goToMapPositive(){
-    window.location.href='http://localhost:4200/home/mapPositive';
+  goToMap() {
+    swal(
+      {
+        title: 'Salvataggio avvenuto con successo',
+        text: 'I tuoi dati sono stati cambiati!',
+        type: 'success',
+        confirmButtonText: 'Vai alla pagina principale',
+      },
+      function (ok) {
+        if (ok) {
+          window.location.href = 'http://localhost:4200/home/mapPositive';
+        }
+      }
+    );
   }
 }

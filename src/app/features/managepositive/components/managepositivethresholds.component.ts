@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 
 @Component({
   selector: 'app-managepositivethresholds',
   template: `
+
     <div class="container">
       <h2>Gestione soglie</h2>
       <div class="row">
@@ -16,19 +18,18 @@ import { Component } from '@angular/core';
             <label>Soglia inferiore:</label>
             <input
               name="minPositiveThresholds"
-              [ngModel]=response.minPositiveThresholds
+              [ngModel]="response.minPositiveThresholds"
               type="number"
               class="form-control"
               placeholder="Inserisci soglia inferiore"
               id="minPositiveThresholds"
-
             />
 
             <br />
             <label>Soglia Superiore:</label>
             <input
               name="maxPositiveThresholds"
-              [ngModel]=response.maxPositiveThresholds
+              [ngModel]="response.maxPositiveThresholds"
               type="number"
               class="form-control"
               placeholder="Inserisci soglia superiore"
@@ -53,7 +54,8 @@ import { Component } from '@angular/core';
               name="mediumColorPositiveThresholds"
               [ngModel]="response.mediumColorPositiveThresholds"
               class="form-control"
-              id="mediumColorPositiveThresholds">
+              id="mediumColorPositiveThresholds"
+            />
             <br />
 
             <label>Modifica Colore Terzo Range</label>
@@ -62,13 +64,14 @@ import { Component } from '@angular/core';
               name="maxColorPositiveThresholds"
               [ngModel]="response.maxColorPositiveThresholds"
               class="form-control"
-              id="maxColorPositiveThresholds">
+              id="maxColorPositiveThresholds"
+            />
             <br />
             <button
               class="btn"
               [disabled]="f.invalid"
               [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-              (click)="goToMapPositive()"
+              (click)="goToMap()"
             >
               Salva
             </button>
@@ -92,7 +95,7 @@ export class ManagepositivethresholdsComponent {
   constructor(private http: HttpClient) {
     this.http
       .get('http://localhost:3000/soglie/1')
-      .subscribe((res) => (this.response = res) );
+      .subscribe((res) => (this.response = res));
   }
   onSubmit(value: any) {
     this.http
@@ -103,8 +106,26 @@ export class ManagepositivethresholdsComponent {
       });
   }
 
-  goToMapPositive() {
-    alert('Salvataggio avvenuto con successo');
-    window.location.href = 'http://localhost:4200/home/mapPositive';
+
+
+
+
+
+
+
+  goToMap() {
+    swal(
+      {
+        title: 'Salvataggio avvenuto con successo',
+        text: 'I tuoi dati sono stati cambiati!',
+        type: 'success',
+        confirmButtonText: 'Vai alla pagina principale',
+      },
+      function (ok) {
+        if (ok) {
+          window.location.href = 'http://localhost:4200/home/mapPositive';
+        }
+      }
+    );
   }
 }

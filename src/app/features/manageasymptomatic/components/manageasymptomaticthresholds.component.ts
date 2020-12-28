@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 
 @Component({
   selector: 'app-manageasymptomaticthresholds',
@@ -66,7 +67,7 @@ import { Component } from '@angular/core';
               class="btn"
               [disabled]="f.invalid"
               [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-              (click)="goToMapAsymptomatic()"
+              (click)="goToMap()"
             >
               Salva
             </button>
@@ -102,7 +103,19 @@ export class ManageasymptomaticthresholdsComponent {
       });
   }
 
-  goToMapAsymptomatic() {
-    window.location.href = 'http://localhost:4200/home/mapAsymptomatic';
+  goToMap() {
+    swal(
+      {
+        title: 'Salvataggio avvenuto con successo',
+        text: 'I tuoi dati sono stati cambiati!',
+        type: 'success',
+        confirmButtonText: 'Vai alla pagina principale',
+      },
+      function (ok) {
+        if (ok) {
+          window.location.href = 'http://localhost:4200/home/mapAsymptomatic';
+        }
+      }
+    );
   }
 }

@@ -51,12 +51,13 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap-sweetalert/dist/sweetalert.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.css",
               "./node_modules/leaflet/dist/leaflet.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/bootstrap-sweetalert/dist/sweetalert.js"]
           },
           "configurations": {
             "production": {

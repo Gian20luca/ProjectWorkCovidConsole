@@ -1,0 +1,22 @@
+<div class="container-fluid" style="margin-top:15px;">
+  <div class="row justify-content-around">
+    <div class="col-md-6"></div>
+    <ul class="pull-right ">
+      <li>
+        <a routerLink="mapPositive" routerLinkActive="active" > Positivi </a>
+      </li>
+      <li>
+        <a routerLink="mapDeaths" routerLinkActive="active"> Decessi</a>
+      </li>
+      <li
+        style="
+    padding-right: 0px;"
+      >
+        <a routerLink="mapAsymptomatic" routerLinkActive="active">
+          Asintomatici
+        </a>
+      </li>
+    </ul>
+  </div>
+  <router-outlet></router-outlet>
+</div>

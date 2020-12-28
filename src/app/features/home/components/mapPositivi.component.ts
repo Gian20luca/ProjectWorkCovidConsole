@@ -78,12 +78,6 @@ import { forkJoin } from 'rxjs';
         right: 0px;
         z-index: 1000;
       }
-.leggenda {
-   background-color:rgba(255,255,255,0.8);
-   padding:7px;
-   border-radius:15px;
-
-}
     `,
   ],
 })
@@ -246,7 +240,7 @@ export class MapPositiviComponent implements OnInit {
 
 
 
-          div.innerHTML = '<div style="border: 1px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:7px;border-radius:15px;"> <i class="fa fa-square" style="color:' + labels[0] + '"></i> ' + '0-'+grades[0] + '<br>' + '<i class="fa fa-square" style="color:' + labels[1] + '"></i> ' + grades[0] + '-' + grades[1] + '<br>' + '<i class="fa fa-square" style="color:' + labels[2] + '"></i> ' + grades[1]+'+</div>';
+          div.innerHTML = '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' + labels[0] + '"></i> ' + '0-'+grades[0] + '<br>' + '<i class="fa fa-square" style="color:' + labels[1] + '"></i> ' + grades[0] + '-' + grades[1] + '<br>' + '<i class="fa fa-square" style="color:' + labels[2] + '"></i> ' + grades[1]+'+</div>';
 
 
 

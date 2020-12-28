@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 
 @Component({
   selector: 'app-managedeathsthresholds',
@@ -67,7 +68,7 @@ import { Component, OnInit } from '@angular/core';
               class="btn"
               [disabled]="f.invalid"
               [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-              (click)="goToMapDeaths()"
+              (click)="goToMap()"
             >
               Salva
             </button>
@@ -103,7 +104,19 @@ export class ManagedeathsthresholdsComponent {
       });
   }
 
-  goToMapDeaths() {
-    window.location.href = 'http://localhost:4200/home/mapDeaths';
+  goToMap() {
+    swal(
+      {
+        title: 'Salvataggio avvenuto con successo',
+        text: 'I tuoi dati sono stati cambiati!',
+        type: 'success',
+        confirmButtonText: 'Vai alla pagina principale',
+      },
+      function (ok) {
+        if (ok) {
+          window.location.href = 'http://localhost:4200/home/mapDeaths';
+        }
+      }
+    );
   }
 }
