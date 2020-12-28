@@ -3,23 +3,16 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { MapComponent } from './shared/components/map.component';
-import { HttpClientModule } from '@angular/common/http';
+import { CoreModule } from './core/core.module';
+import { HomeModule } from './features/home/home.module';
+import { ManageasymptomaticModule } from './features/manageasymptomatic/manageasymptomatic.module';
+import { ManagedeathsModule } from './features/managedeaths/managedeaths.module';
+import { ManagepositiveModule } from './features/managepositive/managepositive.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MapComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    LeafletModule,
-    HttpClientModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, HomeModule,CoreModule,ManageasymptomaticModule,ManagedeathsModule,ManagepositiveModule],
   providers: [],
-  bootstrap: [AppComponent],
-  exports: [MapComponent]
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
