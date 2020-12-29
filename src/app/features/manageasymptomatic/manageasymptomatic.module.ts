@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ManageasymptomaticComponent } from './manageasymptomatic.component';
-import { ManageasymptomaticinputComponent } from './components/manageasymptomaticinput.component';
-import { ManageasymptomaticthresholdsComponent } from './components/manageasymptomaticthresholds.component';
+import { ManageasymptomaticinputComponent } from './components/manageasymptomaticinput/manageasymptomaticinput.component';
+import { ManageasymptomaticthresholdsComponent } from './components/manageasymptomaticthresholds/manageasymptomaticthresholds.component';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 

@@ -6,81 +6,8 @@ import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-map-asintomatici',
-  template: `
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-2">
-          <p>Asintomatici in Italia oggi:</p>
-        </div>
-        <div class="col-md-10" style="margin-bottom:-100px;">
-          <marquee
-            direction="left"
-            scrolldelay="150"
-            height="30"
-            width="auto"
-            bgcolor="white"
-            style="margin-right:5px;"
-
-          >
-            <div >
-              <span *ngFor="let item of rispostaScroll"
-                >{{ item.name }}:
-                {{ item.asymptomatic }}</span
-              >
-            </div>
-          </marquee>
-        </div>
-      </div>
-      <div
-        leaflet
-        [leafletOptions]="options"
-        (leafletMapReady)="onMapReady($event)"
-        style="border: 1px black solid"
-      >
-        <div id="map" style="height: 500px;"></div>
-      </div>
-    </div>
-
-     <div class="showdetails" *ngIf="this.dettagliRegione">
-      <div class="modal-dialog showdetailsDialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title">{{ dettagliRegione.name }}</h2>
-            <button type="button" class="close" (click)="closeShowDetails()">
-              <span> &times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Popolazione: {{ dettagliRegione.population }}</p>
-            <p>Asintomatici: {{ dettagliRegione.positive }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-      p {
-        font-size: 18px;
-        font-weight: 500;
-      }
-      span {
-        margin-right: 50px;
-      }
-      .showdetails {
-        background-color: rgba(0, 0, 0, 0.2);
-        position: fixed;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        z-index: 1000;
-      }
-      .showdetailsDialog {
-        margin-top: 150px;
-      }
-    `,
-  ],
+  templateUrl: './mapAsintomatici.component.html',
+  styleUrls: ['./mapAsintomatici.component.css'],
 })
 export class MapAsintomaticiComponent implements OnInit {
   map: L.Map;
@@ -100,9 +27,7 @@ export class MapAsintomaticiComponent implements OnInit {
   ngOnInit(): void {
     this.http
       .get('http://localhost:3000/regione')
-      .subscribe((response) => (
-        this.rispostaScroll = response)
-      );
+      .subscribe((response) => (this.rispostaScroll = response));
     this.options = {
       layers: [
         L.tileLayer(
@@ -151,7 +76,8 @@ export class MapAsintomaticiComponent implements OnInit {
     //alla proprieta di L.geojson vengono assegnate direttamente più funzioni direttamente agli eventi
     const onEachFeature = (features, layer) => {
       layer.on({
-        mouseover: highlightFeature,zoomToFeature,
+        mouseover: highlightFeature,
+        zoomToFeature,
         mouseout: resetHighlight,
         click: ShowDetails,
       });
@@ -232,17 +158,37 @@ export class MapAsintomaticiComponent implements OnInit {
       }).addTo(map);
       const legend = L.control.attribution({ position: 'bottomleft' });
 
-      legend.onAdd = map => {
+      legend.onAdd = (map) => {
         let div = L.DomUtil.create('div'),
-          grades = [this.risposta[2][2].minAsymptomaticThresholds,this.risposta[2][2].maxAsymptomaticThresholds],
-          labels = [this.risposta[2][2].minColorAsymptomaticThresholds,this.risposta[2][2].mediumColorAsymptomaticThresholds,this.risposta[2][2].maxColorAsymptomaticThresholds];
+          grades = [
+            this.risposta[2][2].minAsymptomaticThresholds,
+            this.risposta[2][2].maxAsymptomaticThresholds,
+          ],
+          labels = [
+            this.risposta[2][2].minColorAsymptomaticThresholds,
+            this.risposta[2][2].mediumColorAsymptomaticThresholds,
+            this.risposta[2][2].maxColorAsymptomaticThresholds,
+          ];
 
-
-
-          div.innerHTML = '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' + labels[0] + '"></i> ' + '0-'+grades[0] + '<br>' + '<i class="fa fa-square" style="color:' + labels[1] + '"></i> ' + grades[0] + '-' + grades[1] + '<br>' + '<i class="fa fa-square" style="color:' + labels[2] + '"></i> ' + grades[1]+'+</div>';
-
-
-
+        div.innerHTML =
+          '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' +
+          labels[0] +
+          '"></i> ' +
+          '0-' +
+          grades[0] +
+          '<br>' +
+          '<i class="fa fa-square" style="color:' +
+          labels[1] +
+          '"></i> ' +
+          grades[0] +
+          '-' +
+          grades[1] +
+          '<br>' +
+          '<i class="fa fa-square" style="color:' +
+          labels[2] +
+          '"></i> ' +
+          grades[1] +
+          '+</div>';
 
         return div;
       };

@@ -5,87 +5,8 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 
 @Component({
   selector: 'app-managedeathsthresholds',
-  template: `
-    <div class="container">
-      <h2>Gestione soglie</h2>
-      <div class="row">
-        <div class="offset-md-3 col-md-6 offset-md-3">
-          <form
-          *ngIf="response"
-            #f="ngForm"
-            class="card card-body mt-3"
-            (ngSubmit)="onSubmit(f.value)"
-          >
-            <label>Soglia inferiore:</label>
-            <input
-              name="minDeathsThresholds"
-              [ngModel]=response.minDeathsThresholds
-              type="number"
-              class="form-control"
-              placeholder="Inserisci soglia inferiore"
-              id="minDeathsThresholds"
-            />
-            <br />
-            <label>Soglia Superiore:</label>
-            <input
-              name="maxDeathsThresholds"
-              [ngModel]=response.maxDeathsThresholds
-              type="number"
-              class="form-control"
-              placeholder="Inserisci soglia superiore"
-              id="maxDeathsThresholds"
-
-            />
-            <br />
-            <label>Modifica Colore Primo Range</label>
-
-            <input
-              type="color"
-              name="minColorDeathsThresholds"
-              [ngModel]="response.minColorDeathsThresholds"
-              class="form-control"
-              id="minColorDeathsThresholds"
-            />
-
-            <br />
-
-            <label>Modifica Colore Secondo Range</label>
-            <input
-              type="color"
-              name="mediumColorDeathsThresholds"
-              [ngModel]="response.mediumColorDeathsThresholds"
-              class="form-control"
-              id="mediumColorDeathsThresholds">
-            <br />
-
-            <label>Modifica Colore Terzo Range</label>
-            <input
-              type="color"
-              name="maxColorDeathsThresholds"
-              [ngModel]="response.maxColorDeathsThresholds"
-              class="form-control"
-              id="maxColorDeathsThresholds">
-            <br />
-            <button
-              class="btn"
-              [disabled]="f.invalid"
-              [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-            >
-              Salva
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-      h2 {
-        text-align: center;
-        margin: 20px 0 20px 0;
-      }
-    `,
-  ],
+  templateUrl: './managedeathsthresholds.component.html',
+  styleUrls: ['./managedeathsthresholds.component.css'],
 })
 export class ManagedeathsthresholdsComponent {
   response;

@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HomeComponent } from './home.component';
-import { MapAsintomaticiComponent } from './components/mapAsintomatici.component';
-import { MapDeathsComponent } from './components/mapDeceduti.component';
-import { MapPositiviComponent } from './components/mapPositivi.component';
+import { MapAsintomaticiComponent } from './components/mapAsintomatici/mapAsintomatici.component';
+import { MapDeathsComponent } from './components/mapDeceduti/mapDeceduti.component';
+import { MapPositiviComponent } from './components/mapPositivi/mapPositivi.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { RouterModule } from '@angular/router';

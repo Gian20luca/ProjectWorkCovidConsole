@@ -5,82 +5,11 @@ import { GeoJsonObject } from 'geojson';
 import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'app-map-positivi',
-  template: `
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-2">
-          <p>Positivi in Italia oggi:</p>
-        </div>
-        <div class="col-md-10" style="margin-bottom:-100px;">
-          <marquee
-            direction="left"
-            scrolldelay="150"
-            height="30"
-            width="auto"
-            bgcolor="white"
-            style="margin-right:5px;"
-          >
-            <div>
-              <span *ngFor="let item of rispostaScroll"
-                >{{ item.name }}: {{ item.positive }}</span
-              >
-            </div>
-          </marquee>
-        </div>
-      </div>
-      <div
-        leaflet
-        [leafletOptions]="options"
-        (leafletMapReady)="onMapReady($event)"
-        style="border: 1px black solid;"
-      >
-        <div id="map" style="height: 500px;"></div>
-      </div>
-    </div>
-
-    <div class="showdetails" *ngIf="this.dettagliRegione">
-      <div class="modal-dialog showdetailsDialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title">{{ dettagliRegione.name }}</h2>
-            <button type="button" class="close" (click)="closeShowDetails()">
-              <span> &times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Popolazione: {{ dettagliRegione.population }}</p>
-            <p>Positivi: {{ dettagliRegione.positive }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-      p {
-        font-size: 18px;
-        font-weight: 500;
-      }
-      span {
-        margin-right: 50px;
-      }
-      .showdetails {
-        background-color: rgba(0, 0, 0, 0.2);
-        position: fixed;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        z-index: 1000;
-      }
-      .showdetailsDialog {
-        margin-top: 150px;
-      }
-    `,
-  ],
+  selector: 'app-map-deceduti',
+  templateUrl: './mapDeceduti.component.html',
+  styleUrls: ['./mapDeceduti.component.css'],
 })
-export class MapPositiviComponent implements OnInit {
+export class MapDeathsComponent implements OnInit {
   map: L.Map;
 
   bounds1 = L.latLng(42, 13);
@@ -92,10 +21,10 @@ export class MapPositiviComponent implements OnInit {
   dettagliRegione;
   public resGeojson: GeoJsonObject;
   public resJson: GeoJsonObject;
+
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-
     this.http
       .get('http://localhost:3000/regione')
       .subscribe((response) => (this.rispostaScroll = response));
@@ -132,6 +61,7 @@ export class MapPositiviComponent implements OnInit {
       this.dettagliRegione = this.risposta[0][
         e.target.feature.properties.reg_istat_code_num - 1
       ];
+      // return this.dettagliRegione;
       this.cd.detectChanges();
     };
 
@@ -155,38 +85,35 @@ export class MapPositiviComponent implements OnInit {
 
     //controllo dei positivi per assegnare la colorazione alla regione
     const controlNumber = (
-      positive,
-      minPositiveThresholds,
-      maxPositiveThresholds,
-      minColorPositiveThresholds,
-      mediumColorPositiveThresholds,
-      maxColorPositiveThresholds
+      deaths,
+      minDeathsThresholds,
+      maxDeathsThresholds,
+      minColorDeathsThresholds,
+      mediumColorDeathsThresholds,
+      maxColorDeathsThresholds
     ) => {
-      if (positive <= minPositiveThresholds) {
+      if (deaths <= minDeathsThresholds) {
         return {
           color: 'black',
-          fillColor: minColorPositiveThresholds,
+          fillColor: minColorDeathsThresholds,
           fillOpacity: 0.75,
           opacity: 1,
           weight: 0.6,
         };
       }
-      if (
-        positive > minPositiveThresholds &&
-        positive <= maxPositiveThresholds
-      ) {
+      if (deaths > minDeathsThresholds && deaths <= maxDeathsThresholds) {
         return {
           color: 'black',
-          fillColor: mediumColorPositiveThresholds,
+          fillColor: mediumColorDeathsThresholds,
           fillOpacity: 0.75,
           opacity: 1,
           weight: 0.6,
         };
       }
-      if (positive > maxPositiveThresholds) {
+      if (deaths > maxDeathsThresholds) {
         return {
           color: 'black',
-          fillColor: maxColorPositiveThresholds,
+          fillColor: maxColorDeathsThresholds,
           fillOpacity: 0.75,
           opacity: 1,
           weight: 0.6,
@@ -195,17 +122,14 @@ export class MapPositiviComponent implements OnInit {
     };
 
     //chiamate alle 3 api per fare il fork ed avere un array con le 3 risposte
-    let MyJsonRegione = this.http.get<GeoJsonObject>(
-      'http://localhost:3000/regione'
-    );
+    let MyJson = this.http.get<GeoJsonObject>('http://localhost:3000/regione');
     let MyJsonSoglie = this.http.get<GeoJsonObject>(
       'http://localhost:3000/soglie'
     );
     let GeoJson = this.http.get<GeoJsonObject>(
       'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson'
     );
-    forkJoin([MyJsonRegione, GeoJson, MyJsonSoglie]).subscribe((res) => {
-      console.log(res);
+    forkJoin([MyJson, GeoJson, MyJsonSoglie]).subscribe((res) => {
       this.risposta = res;
 
       this.geojson = L.geoJSON(res[1], {
@@ -216,12 +140,12 @@ export class MapPositiviComponent implements OnInit {
             switch ((features.properties.reg_istat_code_num - 1) as number) {
               case i:
                 return controlNumber(
-                  res[0][features.properties.reg_istat_code_num - 1].positive,
-                  res[2][0].minPositiveThresholds,
-                  res[2][0].maxPositiveThresholds,
-                  res[2][0].minColorPositiveThresholds,
-                  res[2][0].mediumColorPositiveThresholds,
-                  res[2][0].maxColorPositiveThresholds
+                  res[0][features.properties.reg_istat_code_num - 1].deaths,
+                  res[2][1].minDeathsThresholds,
+                  res[2][1].maxDeathsThresholds,
+                  res[2][1].minColorDeathsThresholds,
+                  res[2][1].mediumColorDeathsThresholds,
+                  res[2][1].maxColorDeathsThresholds
                 );
             }
           }
@@ -232,13 +156,13 @@ export class MapPositiviComponent implements OnInit {
       legend.onAdd = (map) => {
         let div = L.DomUtil.create('div'),
           grades = [
-            this.risposta[2][0].minPositiveThresholds,
-            this.risposta[2][0].maxPositiveThresholds,
+            this.risposta[2][1].minDeathsThresholds,
+            this.risposta[2][1].maxDeathsThresholds,
           ],
           labels = [
-            this.risposta[2][0].minColorPositiveThresholds,
-            this.risposta[2][0].mediumColorPositiveThresholds,
-            this.risposta[2][0].maxColorPositiveThresholds,
+            this.risposta[2][1].minColorDeathsThresholds,
+            this.risposta[2][1].mediumColorDeathsThresholds,
+            this.risposta[2][1].maxColorDeathsThresholds,
           ];
 
         div.innerHTML =

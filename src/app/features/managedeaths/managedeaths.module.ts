@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ManagedeathsComponent } from './managedeaths.component';
-import { ManagedeathsthresholdsComponent } from './components/managedeathsthresholds.component';
-import { ManagedeathsinputComponent } from './components/managedeathsinput.component';
+import { ManagedeathsthresholdsComponent } from './components/managedeathsthresholds/managedeathsthresholds.component';
+import { ManagedeathsinputComponent } from './components/managedeathsinput/managedeathsinput.component';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 

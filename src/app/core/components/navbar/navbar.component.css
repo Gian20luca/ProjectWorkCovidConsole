@@ -9,3 +9,7 @@ li {
 li:hover {
   font-weight: bold;
 }
+
+.backgroundNav {
+  background-color: #2d3246;
+}

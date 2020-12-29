@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ManagepositiveComponent } from './managepositive.component';
-import { ManagepositiveinputComponent } from './components/managepositiveinput.component';
-import { ManagepositivethresholdsComponent } from './components/managepositivethresholds.component';
+import { ManagepositiveinputComponent } from './components/managepositiveinput/managepositiveinput.component';
+import { ManagepositivethresholdsComponent } from './components/managepositivethresholds/managepositivethresholds.component';
 
 const routes: Routes = [
   {
