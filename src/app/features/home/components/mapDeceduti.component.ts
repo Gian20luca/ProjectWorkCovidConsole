@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
 import { GeoJsonObject } from 'geojson';
@@ -22,9 +22,8 @@ import { forkJoin } from 'rxjs';
             style="margin-right:5px;"
           >
             <div>
-            <span *ngFor="let item of rispostaScroll"
-                >{{ item.name }}:
-                {{ item.deaths }}</span
+              <span *ngFor="let item of rispostaScroll"
+                >{{ item.name }}: {{ item.deaths }}</span
               >
             </div>
           </marquee>
@@ -40,8 +39,8 @@ import { forkJoin } from 'rxjs';
       </div>
     </div>
 
-     <div class="showdetails" *ngIf="this.dettagliRegione">
-      <div class="modal-dialog">
+    <div class="showdetails" *ngIf="this.dettagliRegione">
+      <div class="modal-dialog showdetailsDialog">
         <div class="modal-content">
           <div class="modal-header">
             <h2 class="modal-title">{{ dettagliRegione.name }}</h2>
@@ -75,6 +74,9 @@ import { forkJoin } from 'rxjs';
         right: 0px;
         z-index: 1000;
       }
+      .showdetailsDialog {
+        margin-top: 150px;
+      }
     `,
   ],
 })
@@ -91,10 +93,12 @@ export class MapDeathsComponent implements OnInit {
   public resGeojson: GeoJsonObject;
   public resJson: GeoJsonObject;
 
-  constructor(private http: HttpClient,private cd : ChangeDetectorRef) {}
+  constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.http.get('http://localhost:3000/regione').subscribe(response=>this.rispostaScroll = response);
+    this.http
+      .get('http://localhost:3000/regione')
+      .subscribe((response) => (this.rispostaScroll = response));
     this.options = {
       layers: [
         L.tileLayer(
@@ -145,7 +149,7 @@ export class MapDeathsComponent implements OnInit {
       layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: ShowDetails
+        click: ShowDetails,
       });
       layer.bindTooltip(features.properties.reg_name);
     };
@@ -220,17 +224,37 @@ export class MapDeathsComponent implements OnInit {
       }).addTo(map);
       const legend = L.control.attribution({ position: 'bottomleft' });
 
-      legend.onAdd = map => {
+      legend.onAdd = (map) => {
         let div = L.DomUtil.create('div'),
-          grades = [this.risposta[2][1].minDeathsThresholds,this.risposta[2][1].maxDeathsThresholds],
-          labels = [this.risposta[2][1].minColorDeathsThresholds,this.risposta[2][1].mediumColorDeathsThresholds,this.risposta[2][1].maxColorDeathsThresholds];
+          grades = [
+            this.risposta[2][1].minDeathsThresholds,
+            this.risposta[2][1].maxDeathsThresholds,
+          ],
+          labels = [
+            this.risposta[2][1].minColorDeathsThresholds,
+            this.risposta[2][1].mediumColorDeathsThresholds,
+            this.risposta[2][1].maxColorDeathsThresholds,
+          ];
 
-
-
-          div.innerHTML = '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' + labels[0] + '"></i> ' + '0-'+grades[0] + '<br>' + '<i class="fa fa-square" style="color:' + labels[1] + '"></i> ' + grades[0] + '-' + grades[1] + '<br>' + '<i class="fa fa-square" style="color:' + labels[2] + '"></i> ' + grades[1]+'+</div>';
-
-
-
+        div.innerHTML =
+          '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' +
+          labels[0] +
+          '"></i> ' +
+          '0-' +
+          grades[0] +
+          '<br>' +
+          '<i class="fa fa-square" style="color:' +
+          labels[1] +
+          '"></i> ' +
+          grades[0] +
+          '-' +
+          grades[1] +
+          '<br>' +
+          '<i class="fa fa-square" style="color:' +
+          labels[2] +
+          '"></i> ' +
+          grades[1] +
+          '+</div>';
 
         return div;
       };
@@ -238,8 +262,8 @@ export class MapDeathsComponent implements OnInit {
       legend.addTo(map);
     });
   }
-  closeShowDetails(){
-    this.dettagliRegione=null;
+  closeShowDetails() {
+    this.dettagliRegione = null;
     this.cd.detectChanges();
   }
 }

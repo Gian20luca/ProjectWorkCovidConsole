@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 
 @Component({
@@ -89,12 +90,12 @@ export class ManagepositiveinputComponent {
   onSubmit(value: any) {
     this.http
       .patch('http://localhost:3000/regione/' + value.id, value)
-      .subscribe((res) => {
-        res[value.id].positive = value.positive;
+      .subscribe((res:any) => {
+        res.positive = value.positive;
       });
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private _router: Router) {}
 
   goToMap() {
     swal(
@@ -104,10 +105,8 @@ export class ManagepositiveinputComponent {
         type: 'success',
         confirmButtonText: 'Vai alla pagina principale',
       },
-      function (ok) {
-        if (ok) {
-          window.location.href = 'http://localhost:4200/home/mapPositive';
-        }
+      () => {
+        this._router.navigate(['/mapPositive']);
       }
     );
   }

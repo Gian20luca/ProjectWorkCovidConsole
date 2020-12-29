@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 
 @Component({
@@ -10,6 +11,7 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
       <div class="row">
         <div class="offset-md-3 col-md-6 offset-md-3">
           <form
+          *ngIf="response"
             #f="ngForm"
             class="card card-body mt-3"
             (ngSubmit)="onSubmit(f.value)"
@@ -68,7 +70,6 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
               class="btn"
               [disabled]="f.invalid"
               [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-              (click)="goToMap()"
             >
               Salva
             </button>
@@ -89,34 +90,95 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 export class ManagedeathsthresholdsComponent {
   response;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private _router: Router) {
     this.http
       .get('http://localhost:3000/soglie/2')
       .subscribe((res) => (this.response = res));
   }
 
   onSubmit(value: any) {
-    this.http
-      .patch('http://localhost:3000/soglie/2', value)
-      .subscribe((res) => {
-        res[2].minPositiveThresholds = value.minPositiveThresholds;
-        res[2].maxPositiveThresholds = value.maxPositiveThresholds;
+    if (
+      value.minDeathsThresholds < value.maxDeathsThresholds &&
+      value.minColorDeathsThresholds !==
+        value.maxColorDeathsThresholds &&
+      value.minColorDeathsThresholds !==
+        value.mediumColorDeathsThresholds &&
+      value.mediumColorDeathsThresholds !==
+        value.maxColorDeathsThresholds
+    ) {
+      this.http
+        .patch('http://localhost:3000/soglie/2', value)
+        .subscribe((res: any) => {
+          res.minDeathsThresholds = value.minDeathsThresholds;
+          res.maxDeathsThresholds = value.maxDeathsThresholds;
+          res.minColorDeathsThresholds =
+            value.minColorDeathsThresholds;
+          res.mediumColorDeathsThresholds =
+            value.mediumColorDeathsThresholds;
+          res.maxColorDeathsThresholds =
+            value.maxColorDeathsThresholds;
+        });
+      swal(
+        {
+          title: 'Salvataggio avvenuto con successo',
+          text: 'I tuoi dati sono stati cambiati!',
+          type: 'success',
+          confirmButtonText: 'Vai alla pagina principale',
+        }, () => {
+          this._router.navigate(['/mapDeaths']);
+        }
+      );
+    } else if (
+      value.minDeathsThresholds > value.maxDeathsThresholds &&
+      value.minColorDeathsThresholds !==
+        value.maxColorDeathsThresholds &&
+      value.minColorDeathsThresholds !==
+        value.mediumColorDeathsThresholds &&
+      value.mediumColorDeathsThresholds !==
+        value.maxColorDeathsThresholds
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text:
+          'La soglia inferiore non può essere maggiore della soglia superiore!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
       });
+    } else if (
+      (value.minDeathsThresholds < value.maxDeathsThresholds &&
+        value.minColorDeathsThresholds ===
+          value.maxColorDeathsThresholds) ||
+      (value.minDeathsThresholds < value.maxDeathsThresholds &&
+        value.minColorDeathsThresholds ===
+          value.mediumColorDeathsThresholds) ||
+      (value.minDeathsThresholds < value.maxDeathsThresholds &&
+        value.mediumColorDeathsThresholds ===
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'Alcuni colori inseriti sono uguali!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+        value.minColorDeathsThresholds ===
+          value.maxColorDeathsThresholds) ||
+      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+        value.minColorDeathsThresholds ===
+          value.mediumColorDeathsThresholds) ||
+      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+        value.mediumColorDeathsThresholds ===
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'Alcuni dati inseriti sono errati!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    }
   }
 
-  goToMap() {
-    swal(
-      {
-        title: 'Salvataggio avvenuto con successo',
-        text: 'I tuoi dati sono stati cambiati!',
-        type: 'success',
-        confirmButtonText: 'Vai alla pagina principale',
-      },
-      function (ok) {
-        if (ok) {
-          window.location.href = 'http://localhost:4200/home/mapDeaths';
-        }
-      }
-    );
-  }
 }

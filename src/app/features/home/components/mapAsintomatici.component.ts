@@ -42,7 +42,7 @@ import { forkJoin } from 'rxjs';
     </div>
 
      <div class="showdetails" *ngIf="this.dettagliRegione">
-      <div class="modal-dialog">
+      <div class="modal-dialog showdetailsDialog">
         <div class="modal-content">
           <div class="modal-header">
             <h2 class="modal-title">{{ dettagliRegione.name }}</h2>
@@ -75,6 +75,9 @@ import { forkJoin } from 'rxjs';
         left: 0px;
         right: 0px;
         z-index: 1000;
+      }
+      .showdetailsDialog {
+        margin-top: 150px;
       }
     `,
   ],

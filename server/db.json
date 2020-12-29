@@ -4,15 +4,15 @@
       "id": 1,
       "name": "Piemonte",
       "population": 4329008,
-      "positive": 32424,
-      "deaths": 7679,
-      "asymptomatic": 5795
+      "positive": 34255,
+      "deaths": 10383,
+      "asymptomatic": 6346
     },
     {
       "id": 2,
       "name": "Valle d'Aosta",
       "population": 124968,
-      "positive": 1,
+      "positive": 474,
       "deaths": 370,
       "asymptomatic": 154
     },
@@ -166,8 +166,8 @@
       "id": 1,
       "minPositiveThresholds": 500,
       "maxPositiveThresholds": 10000,
-      "minColorPositiveThresholds": "#ffff00",
-      "mediumColorPositiveThresholds": "#fc9303",
+      "minColorPositiveThresholds": "#eeff00",
+      "mediumColorPositiveThresholds": "#ffae00",
       "maxColorPositiveThresholds": "#f00c0b"
     },
     {
@@ -184,7 +184,17 @@
       "maxAsymptomaticThresholds": 5000,
       "minColorAsymptomaticThresholds": "#accede",
       "mediumColorAsymptomaticThresholds": "#0e4bef",
-      "maxColorAsymptomaticThresholds": "#020894"
+      "maxColorAsymptomaticThresholds": "#020894",
+      "minPositiveThresholds": 500,
+      "maxPositiveThresholds": 10000,
+      "minColorPositiveThresholds": "#eeff00",
+      "mediumColorPositiveThresholds": "#ffae00",
+      "maxColorPositiveThresholds": "#f00c0b",
+      "minDeathsThresholds": 500,
+      "maxDeathsThresholds": 3000,
+      "minColorDeathsThresholds": "#d2d2c6",
+      "mediumColorDeathsThresholds": "#828282",
+      "maxColorDeathsThresholds": "#000000"
     }
   ]
 }

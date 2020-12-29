@@ -7,8 +7,6 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-map-positivi',
   template: `
-
-
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-2">
@@ -42,7 +40,7 @@ import { forkJoin } from 'rxjs';
     </div>
 
     <div class="showdetails" *ngIf="this.dettagliRegione">
-      <div class="modal-dialog">
+      <div class="modal-dialog showdetailsDialog">
         <div class="modal-content">
           <div class="modal-header">
             <h2 class="modal-title">{{ dettagliRegione.name }}</h2>
@@ -57,8 +55,6 @@ import { forkJoin } from 'rxjs';
         </div>
       </div>
     </div>
-
-
   `,
   styles: [
     `
@@ -78,6 +74,9 @@ import { forkJoin } from 'rxjs';
         right: 0px;
         z-index: 1000;
       }
+      .showdetailsDialog {
+        margin-top: 150px;
+      }
     `,
   ],
 })
@@ -96,6 +95,7 @@ export class MapPositiviComponent implements OnInit {
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+
     this.http
       .get('http://localhost:3000/regione')
       .subscribe((response) => (this.rispostaScroll = response));
@@ -117,8 +117,6 @@ export class MapPositiviComponent implements OnInit {
   }
 
   onMapReady(map: L.Map) {
-
-
     //al mousehover colora lo spessore della regione
     const highlightFeature = (e) => {
       const layer = e.target;
@@ -128,8 +126,6 @@ export class MapPositiviComponent implements OnInit {
         fillOpacity: 1,
       });
     };
-
-
 
     //recupera i dati della regione
     const ShowDetails = (e) => {
@@ -233,25 +229,43 @@ export class MapPositiviComponent implements OnInit {
       }).addTo(map);
       const legend = L.control.attribution({ position: 'bottomleft' });
 
-      legend.onAdd = map => {
+      legend.onAdd = (map) => {
         let div = L.DomUtil.create('div'),
-          grades = [this.risposta[2][0].minPositiveThresholds,this.risposta[2][0].maxPositiveThresholds],
-          labels = [this.risposta[2][0].minColorPositiveThresholds,this.risposta[2][0].mediumColorPositiveThresholds,this.risposta[2][0].maxColorPositiveThresholds];
+          grades = [
+            this.risposta[2][0].minPositiveThresholds,
+            this.risposta[2][0].maxPositiveThresholds,
+          ],
+          labels = [
+            this.risposta[2][0].minColorPositiveThresholds,
+            this.risposta[2][0].mediumColorPositiveThresholds,
+            this.risposta[2][0].maxColorPositiveThresholds,
+          ];
 
-
-
-          div.innerHTML = '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' + labels[0] + '"></i> ' + '0-'+grades[0] + '<br>' + '<i class="fa fa-square" style="color:' + labels[1] + '"></i> ' + grades[0] + '-' + grades[1] + '<br>' + '<i class="fa fa-square" style="color:' + labels[2] + '"></i> ' + grades[1]+'+</div>';
-
-
-
+        div.innerHTML =
+          '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' +
+          labels[0] +
+          '"></i> ' +
+          '0-' +
+          grades[0] +
+          '<br>' +
+          '<i class="fa fa-square" style="color:' +
+          labels[1] +
+          '"></i> ' +
+          grades[0] +
+          '-' +
+          grades[1] +
+          '<br>' +
+          '<i class="fa fa-square" style="color:' +
+          labels[2] +
+          '"></i> ' +
+          grades[1] +
+          '+</div>';
 
         return div;
       };
 
       legend.addTo(map);
     });
-
-
   }
   closeShowDetails() {
     this.dettagliRegione = null;
