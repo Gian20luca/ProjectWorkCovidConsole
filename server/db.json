@@ -4,198 +4,207 @@
       "id": 1,
       "name": "Piemonte",
       "population": 4329008,
-      "positive": 34255,
-      "deaths": 10383,
-      "asymptomatic": 6346,
-      "stemmaSvg": "https://it.wikipedia.org/wiki/Stemmi_delle_regioni_italiane#/media/File:Regione-Piemonte-Stemma.svg"
+      "positive": 3135334,
+      "deaths": 1333333,
+      "asymptomatic": 2935334,
+      "stemmaSvg": "http://www.tecnichenormative.it/bandiere/regionali/piemonte.png"
     },
     {
       "id": 2,
       "name": "Valle d'Aosta",
       "population": 124968,
-      "positive": 474,
-      "deaths": 370,
-      "asymptomatic": 154
+      "positive": 22445,
+      "deaths": 9000,
+      "asymptomatic": 12006,
+      "stemmaSvg": "http://www.comuni-italiani.it/02/stemma.jpg"
     },
     {
       "id": 3,
       "name": "Lombardia",
       "population": 10060965,
-      "positive": 68781,
-      "deaths": 24610,
-      "asymptomatic": 14038
+      "positive": 8756654,
+      "deaths": 5093456,
+      "asymptomatic": 6099123,
+      "stemmaSvg": "http://www.consultacultura.it/images/regioni/stemma-regione-lombardia.png"
     },
     {
       "id": 4,
       "name": "Trentino-Alto Adige",
       "population": 1074464,
-      "positive": 12500,
-      "deaths": 878,
-      "asymptomatic": 3456
+      "positive": 1250055,
+      "deaths": 700987,
+      "asymptomatic": 900999,
+      "stemmaSvg": "https://www.italiadascoprire.net/trentinoaltoadige/wp-content/uploads/sites/26/logo-trentino-alto-adige.png"
     },
     {
       "id": 5,
       "name": "Veneto",
       "population": 4894077,
-      "positive": 100089,
-      "deaths": 5747,
-      "asymptomatic": 25775
+      "positive": 2060089,
+      "deaths": 1200567,
+      "asymptomatic": 1800653,
+      "stemmaSvg": "https://www.partitoliberale.it/wp-content/uploads/Veneto-Stemma.png"
     },
     {
       "id": 6,
       "name": "Friuli-Venezia Giulia",
       "population": 1207918,
-      "positive": 13262,
-      "deaths": 1499,
-      "asymptomatic": 1355
+      "positive": 465744,
+      "deaths": 300122,
+      "asymptomatic": 400001,
+      "stemmaSvg": "http://2.bp.blogspot.com/-afNAGbWXdLo/UZ77uSw1VYI/AAAAAAAAE7k/nkONQa-wmkI/s400/friuli+venezia+giulia.gif"
     },
     {
       "id": 7,
       "name": "Liguria",
       "population": 1534407,
-      "positive": 6835,
-      "deaths": 2819,
-      "asymptomatic": 2633
+      "positive": 1054535,
+      "deaths": 890123,
+      "asymptomatic": 900321,
+      "stemmaSvg": "https://seeklogo.com/images/R/Regione_Liguria-logo-6B46C142D3-seeklogo.com.gif"
     },
     {
       "id": 8,
       "name": "Emilia Romagna",
       "population": 4455114,
-      "positive": 60916,
-      "deaths": 7259,
-      "asymptomatic": 4557
+      "positive": 2356463,
+      "deaths": 1200976,
+      "asymptomatic": 2000777,
+      "stemmaSvg": "https://seeklogo.com/images/R/regione-emilia-romagna-logo-FAA2DE0074-seeklogo.com.png"
     },
     {
       "id": 9,
       "name": "Toscana",
       "population": 3709139,
-      "positive": 12806,
-      "deaths": 3517,
-      "asymptomatic": 2434
+      "positive": 2065750,
+      "deaths": 1000232,
+      "asymptomatic": 1500000,
+      "stemmaSvg": "https://seeklogo.com/images/R/Regione_Toscana-logo-788EE96D39-seeklogo.com.png"
     },
     {
       "id": 10,
       "name": "Umbria",
       "population": 877697,
-      "positive": 3883,
-      "deaths": 584,
-      "asymptomatic": 1010
+      "positive": 354566,
+      "deaths": 500122,
+      "asymptomatic": 123122,
+      "stemmaSvg": "https://seeklogo.com/images/G/gonfalone_umbria-logo-F0EDC2EF20-seeklogo.com.gif"
     },
     {
       "id": 11,
       "name": "Marche",
       "population": 1511648,
-      "positive": 9761,
-      "deaths": 1495,
-      "asymptomatic": 2312
+      "positive": 746353,
+      "deaths": 633312,
+      "asymptomatic": 300212,
+      "stemmaSvg": "https://seeklogo.com/images/R/Regione_Marche-logo-CB403BC325-seeklogo.com.png"
     },
     {
       "id": 12,
       "name": "Lazio",
       "population": 5846850,
-      "positive": 76780,
+      "positive": 135534,
       "deaths": 3434,
-      "asymptomatic": 13944
+      "asymptomatic": 13944,
+      "stemmaSvg": "https://seeklogo.com/images/R/Regione_Lazio-logo-2696955948-seeklogo.com.png"
     },
     {
       "id": 13,
       "name": "Abruzzo",
       "population": 1288385,
-      "positive": 13040,
-      "deaths": 1151,
-      "asymptomatic": 3555
+      "positive": 234545,
+      "deaths": 322334,
+      "asymptomatic": 122987,
+      "stemmaSvg": "https://www.finanziamenti-a-fondo-perduto.it/finanziamenti/wp-content/uploads/finanziamenti-a-fondo-perduto-abruzzo.png"
     },
     {
       "id": 14,
       "name": "Molise",
       "population": 300116,
-      "positive": 2747,
+      "positive": 12233,
       "deaths": 177,
-      "asymptomatic": 434
+      "asymptomatic": 434,
+      "stemmaSvg": "https://www.altomolise.net/archivi/immagini/2015/S/stemma-regione-molise.gif"
     },
     {
       "id": 15,
       "name": "Campania",
       "population": 5767467,
-      "positive": 83966,
-      "deaths": 2643,
-      "asymptomatic": 14786
+      "positive": 2337448,
+      "deaths": 30001231,
+      "asymptomatic": 800223,
+      "stemmaSvg": "https://seeklogo.com/images/R/Regione_Campania-logo-2981AE23A1-seeklogo.com.png"
     },
     {
       "id": 16,
       "name": "Puglia",
       "population": 3991140,
-      "positive": 53872,
-      "deaths": 2265,
-      "asymptomatic": 9698
+      "positive": 1034894,
+      "deaths": 122345,
+      "asymptomatic": 400213,
+      "stemmaSvg": "https://upload.wikimedia.org/wikipedia/commons/2/20/Regione_Puglia-Stemma.png"
     },
     {
       "id": 17,
       "name": "Basilicata",
       "population": 554086,
-      "positive": 6005,
-      "deaths": 231,
-      "asymptomatic": 1092
+      "positive": 239303,
+      "deaths": 23121,
+      "asymptomatic": 90021,
+      "stemmaSvg": "https://seeklogo.com/images/R/Regione_Basilicata-logo-A3A64BB0A9-seeklogo.com.png"
     },
     {
       "id": 18,
       "name": "Calabria",
       "population": 1913845,
-      "positive": 323342,
-      "deaths": 436,
-      "asymptomatic": 2211
+      "positive": 500493,
+      "deaths": 123988,
+      "asymptomatic": 100002,
+      "stemmaSvg": "https://confartigianatocosenza.it/images/2020/11/30/443c78684a930670952f8e6f825d7d6f.png"
     },
     {
       "id": 19,
       "name": "Sicilia",
       "population": 4948034,
-      "positive": 33883,
-      "deaths": 2213,
-      "asymptomatic": 8564
+      "positive": 1993948,
+      "deaths": 577892,
+      "asymptomatic": 223132,
+      "stemmaSvg": "https://seeklogo.com/images/R/Regione_Siciliana-logo-0FF62D4185-seeklogo.com.png"
     },
     {
       "id": 20,
       "name": "Sardegna",
       "population": 1624216,
-      "positive": 15836,
-      "deaths": 689,
-      "asymptomatic": 4743
+      "positive": 600458,
+      "deaths": 300012,
+      "asymptomatic": 200000,
+      "stemmaSvg": "https://seeklogo.com/images/R/regione-sardegna-logo-EDC0050925-seeklogo.com.gif"
     }
   ],
   "soglie": [
     {
       "id": 1,
-      "minPositiveThresholds": 500,
-      "maxPositiveThresholds": 10000,
-      "minColorPositiveThresholds": "#eeff00",
-      "mediumColorPositiveThresholds": "#ffae00",
+      "minPositiveThresholds": 25,
+      "maxPositiveThresholds": 50,
+      "minColorPositiveThresholds": "#fbff00",
+      "mediumColorPositiveThresholds": "#ff8800",
       "maxColorPositiveThresholds": "#f00c0b"
     },
     {
       "id": 2,
-      "minDeathsThresholds": 500,
-      "maxDeathsThresholds": 3000,
+      "minDeathsThresholds": 25,
+      "maxDeathsThresholds": 50,
       "minColorDeathsThresholds": "#d2d2c6",
       "mediumColorDeathsThresholds": "#828282",
       "maxColorDeathsThresholds": "#000000"
     },
     {
       "id": 3,
-      "minAsymptomaticThresholds": 500,
-      "maxAsymptomaticThresholds": 5000,
+      "minAsymptomaticThresholds": 25,
+      "maxAsymptomaticThresholds": 50,
       "minColorAsymptomaticThresholds": "#accede",
       "mediumColorAsymptomaticThresholds": "#0e4bef",
-      "maxColorAsymptomaticThresholds": "#020894",
-      "minPositiveThresholds": 500,
-      "maxPositiveThresholds": 10000,
-      "minColorPositiveThresholds": "#eeff00",
-      "mediumColorPositiveThresholds": "#ffae00",
-      "maxColorPositiveThresholds": "#f00c0b",
-      "minDeathsThresholds": 500,
-      "maxDeathsThresholds": 3000,
-      "minColorDeathsThresholds": "#d2d2c6",
-      "mediumColorDeathsThresholds": "#828282",
-      "maxColorDeathsThresholds": "#000000"
+      "maxColorAsymptomaticThresholds": "#020894"
     }
   ]
 }

@@ -84,6 +84,7 @@ export class MapPositiviComponent implements OnInit {
 
     //controllo dei positivi per assegnare la colorazione alla regione
     const controlNumber = (
+      population,
       positive,
       minPositiveThresholds,
       maxPositiveThresholds,
@@ -91,7 +92,7 @@ export class MapPositiviComponent implements OnInit {
       mediumColorPositiveThresholds,
       maxColorPositiveThresholds
     ) => {
-      if (positive <= minPositiveThresholds) {
+      if ((positive / population)*100 <= minPositiveThresholds) {
         return {
           color: 'black',
           fillColor: minColorPositiveThresholds,
@@ -101,8 +102,8 @@ export class MapPositiviComponent implements OnInit {
         };
       }
       if (
-        positive > minPositiveThresholds &&
-        positive <= maxPositiveThresholds
+        (positive / population)*100 > minPositiveThresholds &&
+        (positive / population)*100 <= maxPositiveThresholds
       ) {
         return {
           color: 'black',
@@ -112,7 +113,7 @@ export class MapPositiviComponent implements OnInit {
           weight: 0.6,
         };
       }
-      if (positive > maxPositiveThresholds) {
+      if ((positive / population)*100 > maxPositiveThresholds) {
         return {
           color: 'black',
           fillColor: maxColorPositiveThresholds,
@@ -145,6 +146,7 @@ export class MapPositiviComponent implements OnInit {
             switch ((features.properties.reg_istat_code_num - 1) as number) {
               case i:
                 return controlNumber(
+                  res[0][features.properties.reg_istat_code_num - 1].population,
                   res[0][features.properties.reg_istat_code_num - 1].positive,
                   res[2][0].minPositiveThresholds,
                   res[2][0].maxPositiveThresholds,
@@ -171,24 +173,24 @@ export class MapPositiviComponent implements OnInit {
           ];
 
         div.innerHTML =
-          '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' +
+          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Zona basso rischio</span> <br><i class="fa fa-square" style="color:' +
           labels[0] +
-          '"></i> ' +
-          '0-' +
-          grades[0] +
+          ';font-size:18px;"></i> ' +
+          '0% - ' +
+          grades[0]+'%' +
           '<br>' +
-          '<i class="fa fa-square" style="color:' +
+          '<span style="font-size:15px;">Zona medio rischio</span> <br><i class="fa fa-square" style="color:' +
           labels[1] +
-          '"></i> ' +
-          grades[0] +
-          '-' +
-          grades[1] +
+          ';font-size:18px;"></i> ' +
+          grades[0]+'%' +
+          ' - ' +
+          grades[1]+'%' +
           '<br>' +
-          '<i class="fa fa-square" style="color:' +
+          '<span style="font-size:15px;">Zona alto rischio </span><br><i class="fa fa-square" style="color:' +
           labels[2] +
-          '"></i> ' +
-          grades[1] +
-          '+</div>';
+          ';font-size:18px;"></i> ' +
+          grades[1]+'%' +
+          ' - 100%</div>';
 
         return div;
       };

@@ -21,6 +21,8 @@
   <div class="modal-dialog showdetailsDialog">
     <div class="modal-content">
       <div class="modal-header">
+        <img [src]="dettagliRegione.stemmaSvg" weight="60"
+          height="80" style="margin-right: 20px;">
         <h2 class="modal-title">{{ dettagliRegione.name }}</h2>
         <button type="button" class="close" (click)="closeShowDetails()">
           <span> &times;</span>
@@ -28,7 +30,8 @@
       </div>
       <div class="modal-body">
         <p>Popolazione: {{ dettagliRegione.population }}</p>
-        <p>Asintomatici: {{ dettagliRegione.positive }}</p>
+        <p>Asintomatici: {{ dettagliRegione.asymptomatic }}</p>
+        <p>Asintomatici su positivi: {{ dettagliRegione.asymptomatic / dettagliRegione.positive * 100 | number:'1.1-2'}}%</p>
       </div>
     </div>
   </div>

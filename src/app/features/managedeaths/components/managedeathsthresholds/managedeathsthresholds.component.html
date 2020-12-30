@@ -13,6 +13,8 @@
           name="minDeathsThresholds"
           [ngModel]=response.minDeathsThresholds
           type="number"
+          min="0"
+          max="99"
           class="form-control"
           placeholder="Inserisci soglia inferiore"
           id="minDeathsThresholds"
@@ -23,6 +25,8 @@
           name="maxDeathsThresholds"
           [ngModel]=response.maxDeathsThresholds
           type="number"
+          min="0"
+          max="100"
           class="form-control"
           placeholder="Inserisci soglia superiore"
           id="maxDeathsThresholds"

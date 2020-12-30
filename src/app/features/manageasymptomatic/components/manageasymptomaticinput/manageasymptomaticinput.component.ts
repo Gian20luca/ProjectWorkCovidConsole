@@ -9,17 +9,20 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
   styleUrls: ['./manageasymptomaticinput.component.css'],
 })
 export class ManageasymptomaticinputComponent {
-  onSubmit(value: any) {
+   responseSelect;
+  constructor(private http: HttpClient, private _router: Router) {
     this.http
-      .patch('http://localhost:3000/regione/' + value.id, value)
-      .subscribe((res:any) => {
-        res.asymptomatic = value.asymptomatic;
-      });
+      .get('http://localhost:3000/regione/1')
+      .subscribe((res: any) => (this.responseSelect = res));
   }
 
-  constructor(private http: HttpClient,private _router: Router) {}
+  onSubmit(value: any) {
 
-  goToMap() {
+    if(value.asymptomatic < this.responseSelect.positive && value.asymptomatic > 0){
+    this.http
+      .patch('http://localhost:3000/regione/' + value.id, value)
+      .subscribe(() => {
+      });
     swal(
       {
         title: 'Salvataggio avvenuto con successo',
@@ -31,5 +34,32 @@ export class ManageasymptomaticinputComponent {
         this._router.navigate(['/mapAsymptomatic']);
       }
     );
+  }
+  else if(value.asymptomatic < 0){
+    swal(
+      {
+        title: 'Salvataggio non avvenuto',
+        text: "Gli asintomatici non possono essere minori di 0",
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      }
+    );
+  }
+  else {
+    swal(
+      {
+        title: 'Salvataggio non avvenuto',
+        text: "Gli asintomatici non possono essere maggiori dei positivi",
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      }
+    );
+  }
+}
+
+  onChanged(value: any) {
+    this.http
+      .get('http://localhost:3000/regione/' + value.id)
+      .subscribe((res: any) => (this.responseSelect = res));
   }
 }

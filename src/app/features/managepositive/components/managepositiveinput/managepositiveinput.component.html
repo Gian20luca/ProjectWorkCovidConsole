@@ -12,33 +12,34 @@
         </label>
 
         <select
+        (click)="onChanged(f.value)"
           name="id"
-          [ngModel]
+          [ngModel]="responseSelect?.id"
           class="form-control"
           #region="ngModel"
           required
           [ngClass]="{ 'is-invalid': region.invalid && f.dirty }"
         >
-          <option ngValue="1" selected>Piemonte</option>
-          <option ngValue="2">Valle d'Aosta</option>
-          <option ngValue="3">Lombardia</option>
-          <option ngValue="4">Trentino-Alto Adige</option>
-          <option ngValue="5">Veneto</option>
-          <option ngValue="6">Friuli-Venezia Giulia</option>
-          <option ngValue="7">Liguria</option>
-          <option ngValue="8">Emilia Romagna</option>
-          <option ngValue="9">toscana</option>
-          <option ngValue="10">Umbria</option>
-          <option ngValue="11">Marche</option>
-          <option ngValue="12">Lazio</option>
-          <option ngValue="13">Abruzzo</option>
-          <option ngValue="14">Molise</option>
-          <option ngValue="15">Campania</option>
-          <option ngValue="16">Puglia</option>
-          <option ngValue="17">Basilicata</option>
-          <option ngValue="18">Calabria</option>
-          <option ngValue="19">Sicilia</option>
-          <option ngValue="20">Sardegna</option>
+          <option [ngValue]="1" selected>Piemonte</option>
+          <option [ngValue]="2">Valle d'Aosta</option>
+          <option [ngValue]="3">Lombardia</option>
+          <option [ngValue]="4">Trentino-Alto Adige</option>
+          <option [ngValue]="5">Veneto</option>
+          <option [ngValue]="6">Friuli-Venezia Giulia</option>
+          <option [ngValue]="7">Liguria</option>
+          <option [ngValue]="8">Emilia Romagna</option>
+          <option [ngValue]="9">Toscana</option>
+          <option [ngValue]="10">Umbria</option>
+          <option [ngValue]="11">Marche</option>
+          <option [ngValue]="12">Lazio</option>
+          <option [ngValue]="13">Abruzzo</option>
+          <option [ngValue]="14">Molise</option>
+          <option [ngValue]="15">Campania</option>
+          <option [ngValue]="16">Puglia</option>
+          <option [ngValue]="17">Basilicata</option>
+          <option [ngValue]="18">Calabria</option>
+          <option [ngValue]="19">Sicilia</option>
+          <option [ngValue]="20">Sardegna</option>
         </select>
 
         <br />
@@ -46,8 +47,9 @@
         <label>N° Positivi:</label>
         <input
           name="positive"
-          [ngModel]
+          [ngModel]="responseSelect?.positive"
           type="number"
+          min="0"
           class="form-control"
           placeholder="Inserisci nuovi positivi"
           id="positive"
@@ -55,12 +57,12 @@
           #positive="ngModel"
           [ngClass]="{ 'is-invalid': positive.invalid && f.dirty }"
         />
+        <pre>Popolazione: {{responseSelect?.population}}</pre>
         <br />
         <button
           class="btn"
           [disabled]="f.invalid"
           [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-          (click)="goToMap()"
         >
           Salva
         </button>

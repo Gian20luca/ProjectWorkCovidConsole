@@ -86,6 +86,7 @@ export class MapAsintomaticiComponent implements OnInit {
 
     //controllo dei positivi per assegnare la colorazione alla regione
     const controlNumber = (
+      positive,
       asymptomatic,
       minAsymptomaticThresholds,
       maxAsymptomaticThresholds,
@@ -93,7 +94,7 @@ export class MapAsintomaticiComponent implements OnInit {
       mediumColorAsymptomaticThresholds,
       maxColorAsymptomaticThresholds
     ) => {
-      if (asymptomatic <= minAsymptomaticThresholds) {
+      if ((asymptomatic / positive)*100 <= minAsymptomaticThresholds) {
         return {
           color: 'black',
           fillColor: minColorAsymptomaticThresholds,
@@ -103,8 +104,8 @@ export class MapAsintomaticiComponent implements OnInit {
         };
       }
       if (
-        asymptomatic > minAsymptomaticThresholds &&
-        asymptomatic <= maxAsymptomaticThresholds
+        (asymptomatic / positive)*100 > minAsymptomaticThresholds &&
+        (asymptomatic / positive)*100 <= maxAsymptomaticThresholds
       ) {
         return {
           color: 'black',
@@ -114,7 +115,7 @@ export class MapAsintomaticiComponent implements OnInit {
           weight: 0.6,
         };
       }
-      if (asymptomatic > maxAsymptomaticThresholds) {
+      if ((asymptomatic / positive)*100 > maxAsymptomaticThresholds) {
         return {
           color: 'black',
           fillColor: maxColorAsymptomaticThresholds,
@@ -145,6 +146,8 @@ export class MapAsintomaticiComponent implements OnInit {
               case i:
                 return controlNumber(
                   res[0][features.properties.reg_istat_code_num - 1]
+                    .positive,
+                  res[0][features.properties.reg_istat_code_num - 1]
                     .asymptomatic,
                   res[2][2].minAsymptomaticThresholds,
                   res[2][2].maxAsymptomaticThresholds,
@@ -170,25 +173,25 @@ export class MapAsintomaticiComponent implements OnInit {
             this.risposta[2][2].maxColorAsymptomaticThresholds,
           ];
 
-        div.innerHTML =
-          '<div style="border: 2px solid black;font-size: 15px;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <i class="fa fa-square" style="color:' +
+          div.innerHTML =
+          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Zona basso rischio</span> <br><i class="fa fa-square" style="color:' +
           labels[0] +
-          '"></i> ' +
-          '0-' +
-          grades[0] +
+          ';font-size:18px;"></i> ' +
+          '0% - ' +
+          grades[0]+'%' +
           '<br>' +
-          '<i class="fa fa-square" style="color:' +
+          '<span style="font-size:15px;">Zona medio rischio</span> <br><i class="fa fa-square" style="color:' +
           labels[1] +
-          '"></i> ' +
-          grades[0] +
-          '-' +
-          grades[1] +
+          ';font-size:18px;"></i> ' +
+          grades[0]+'%' +
+          ' - ' +
+          grades[1]+'%' +
           '<br>' +
-          '<i class="fa fa-square" style="color:' +
+          '<span style="font-size:15px;">Zona alto rischio </span><br><i class="fa fa-square" style="color:' +
           labels[2] +
-          '"></i> ' +
-          grades[1] +
-          '+</div>';
+          ';font-size:18px;"></i> ' +
+          grades[1]+'%' +
+          ' - 100%</div>';
 
         return div;
       };

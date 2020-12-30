@@ -9,17 +9,19 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
   styleUrls: ['./managedeathsinput.component.css'],
 })
 export class ManagedeathsinputComponent {
+  responseSelect;
+  constructor(private http: HttpClient, private _router: Router) {
+    this.http
+    .get('http://localhost:3000/regione/1')
+    .subscribe((res: any) => (this.responseSelect = res));
+  }
   onSubmit(value: any) {
+
+    if(value.deaths < this.responseSelect.population && value.deaths > 0){
     this.http
       .patch('http://localhost:3000/regione/' + value.id, value)
-      .subscribe((res:any) => {
-        res.deaths = value.deaths;
+      .subscribe(() => {
       });
-  }
-
-  constructor(private http: HttpClient,private _router: Router) {}
-
-  goToMap() {
     swal(
       {
         title: 'Salvataggio avvenuto con successo',
@@ -31,5 +33,33 @@ export class ManagedeathsinputComponent {
         this._router.navigate(['/mapDeaths']);
       }
     );
+  }
+
+  else if(value.deaths < 0){
+    swal(
+      {
+        title: 'Salvataggio non avvenuto',
+        text: "I decessi non possono essere minori di 0",
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      }
+    );
+  }
+  else {
+    swal(
+      {
+        title: 'Salvataggio non avvenuto',
+        text: "I decessi non possono essere maggiori dell' intera popolazione",
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      }
+    );
+  }
+}
+
+  onChanged(value: any) {
+    this.http
+      .get('http://localhost:3000/regione/' + value.id)
+      .subscribe((res: any) => (this.responseSelect = res));
   }
 }

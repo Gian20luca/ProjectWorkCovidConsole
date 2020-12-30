@@ -11,7 +11,7 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
 export class ManagedeathsthresholdsComponent {
   response;
 
-  constructor(private http: HttpClient,private _router: Router) {
+  constructor(private http: HttpClient, private _router: Router) {
     this.http
       .get('http://localhost:3000/soglie/2')
       .subscribe((res) => (this.response = res));
@@ -20,43 +20,39 @@ export class ManagedeathsthresholdsComponent {
   onSubmit(value: any) {
     if (
       value.minDeathsThresholds < value.maxDeathsThresholds &&
-      value.minColorDeathsThresholds !==
-        value.maxColorDeathsThresholds &&
+      value.minDeathsThresholds > 0 &&
+      value.maxDeathsThresholds > 0 &&
+      value.minDeathsThresholds < 99 &&
+      value.maxDeathsThresholds < 100 &&
+      value.minColorDeathsThresholds !== value.maxColorDeathsThresholds &&
       value.minColorDeathsThresholds !==
         value.mediumColorDeathsThresholds &&
-      value.mediumColorDeathsThresholds !==
-        value.maxColorDeathsThresholds
+      value.mediumColorDeathsThresholds !== value.maxColorDeathsThresholds
     ) {
       this.http
         .patch('http://localhost:3000/soglie/2', value)
-        .subscribe((res: any) => {
-          res.minDeathsThresholds = value.minDeathsThresholds;
-          res.maxDeathsThresholds = value.maxDeathsThresholds;
-          res.minColorDeathsThresholds =
-            value.minColorDeathsThresholds;
-          res.mediumColorDeathsThresholds =
-            value.mediumColorDeathsThresholds;
-          res.maxColorDeathsThresholds =
-            value.maxColorDeathsThresholds;
-        });
+        .subscribe(() => {});
       swal(
         {
           title: 'Salvataggio avvenuto con successo',
           text: 'I tuoi dati sono stati cambiati!',
           type: 'success',
           confirmButtonText: 'Vai alla pagina principale',
-        }, () => {
+        },
+        () => {
           this._router.navigate(['/mapDeaths']);
         }
       );
     } else if (
       value.minDeathsThresholds > value.maxDeathsThresholds &&
-      value.minColorDeathsThresholds !==
-        value.maxColorDeathsThresholds &&
+      value.minDeathsThresholds > 0 &&
+      value.maxDeathsThresholds > 0 &&
+      value.minDeathsThresholds < 99 &&
+      value.maxDeathsThresholds < 100 &&
+      value.minColorDeathsThresholds !== value.maxColorDeathsThresholds &&
       value.minColorDeathsThresholds !==
         value.mediumColorDeathsThresholds &&
-      value.mediumColorDeathsThresholds !==
-        value.maxColorDeathsThresholds
+      value.mediumColorDeathsThresholds !== value.maxColorDeathsThresholds
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
@@ -67,12 +63,24 @@ export class ManagedeathsthresholdsComponent {
       });
     } else if (
       (value.minDeathsThresholds < value.maxDeathsThresholds &&
+        value.minDeathsThresholds > 0 &&
+        value.maxDeathsThresholds > 0 &&
+        value.minDeathsThresholds < 99 &&
+        value.maxDeathsThresholds < 100 &&
         value.minColorDeathsThresholds ===
           value.maxColorDeathsThresholds) ||
       (value.minDeathsThresholds < value.maxDeathsThresholds &&
+        value.minDeathsThresholds < 99 &&
+        value.maxDeathsThresholds < 100 &&
+        value.minDeathsThresholds > 0 &&
+        value.maxDeathsThresholds > 0 &&
         value.minColorDeathsThresholds ===
           value.mediumColorDeathsThresholds) ||
       (value.minDeathsThresholds < value.maxDeathsThresholds &&
+        value.minDeathsThresholds < 99 &&
+        value.maxDeathsThresholds < 100 &&
+        value.minDeathsThresholds > 0 &&
+        value.maxDeathsThresholds > 0 &&
         value.mediumColorDeathsThresholds ===
           value.maxColorDeathsThresholds)
     ) {
@@ -83,23 +91,227 @@ export class ManagedeathsthresholdsComponent {
         confirmButtonText: 'Riprova',
       });
     } else if (
-      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+      value.minDeathsThresholds === value.maxDeathsThresholds &&
+      value.minDeathsThresholds >= 0 &&
+      value.maxDeathsThresholds >= 0 &&
+      value.minColorDeathsThresholds !== value.maxColorDeathsThresholds &&
+      value.minColorDeathsThresholds !==
+        value.mediumColorDeathsThresholds &&
+      value.mediumColorDeathsThresholds !== value.maxColorDeathsThresholds
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text:
+          'La soglia inferiore non può essere uguale alla soglia superiore!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      (value.minDeathsThresholds === value.maxDeathsThresholds &&
+        value.minDeathsThresholds >= 0 &&
+        value.maxDeathsThresholds >= 0 &&
         value.minColorDeathsThresholds ===
           value.maxColorDeathsThresholds) ||
-      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+      (value.minDeathsThresholds === value.maxDeathsThresholds &&
+        value.minDeathsThresholds >= 0 &&
+        value.maxDeathsThresholds >= 0 &&
         value.minColorDeathsThresholds ===
           value.mediumColorDeathsThresholds) ||
-      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+      (value.minDeathsThresholds === value.maxDeathsThresholds &&
+        value.minDeathsThresholds >= 0 &&
+        value.maxDeathsThresholds >= 0 &&
         value.mediumColorDeathsThresholds ===
           value.maxColorDeathsThresholds)
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
-        text: 'Alcuni dati inseriti sono errati!',
+        text: 'Le soglie e i colori inseriti non possono essere uguali!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+        value.minDeathsThresholds > 0 &&
+        value.maxDeathsThresholds > 0 &&
+        value.minDeathsThresholds < 99 &&
+        value.maxDeathsThresholds < 100 &&
+        value.minColorDeathsThresholds ===
+          value.maxColorDeathsThresholds) ||
+      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+        value.minDeathsThresholds > 0 &&
+        value.maxDeathsThresholds > 0 &&
+        value.minDeathsThresholds < 99 &&
+        value.maxDeathsThresholds < 100 &&
+        value.minColorDeathsThresholds ===
+          value.mediumColorDeathsThresholds) ||
+      (value.minDeathsThresholds > value.maxDeathsThresholds &&
+        value.minDeathsThresholds > 0 &&
+        value.maxDeathsThresholds > 0 &&
+        value.minDeathsThresholds < 99 &&
+        value.maxDeathsThresholds < 100 &&
+        value.mediumColorDeathsThresholds ===
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text:
+          'La soglia inferiore non può essere maggiore della soglia superiore e i colori inseriti non possono essere uguali!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      (value.minDeathsThresholds < 0 &&
+        value.maxDeathsThresholds < 0 &&
+        value.minColorDeathsThresholds ===
+          value.maxColorDeathsThresholds) ||
+      (value.minDeathsThresholds < 0 &&
+        value.maxDeathsThresholds < 0 &&
+        value.minColorDeathsThresholds ===
+          value.mediumColorDeathsThresholds) ||
+      (value.minDeathsThresholds < 0 &&
+        value.maxDeathsThresholds < 0 &&
+        value.mediumColorDeathsThresholds ===
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text:
+          'Le soglie inserite non possono essere minori di 0 e i colori inseriti non possono essere uguali!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      ((value.minDeathsThresholds < 0 || value.maxDeathsThresholds < 0) &&
+        value.minColorDeathsThresholds ===
+          value.maxColorDeathsThresholds) ||
+      ((value.minDeathsThresholds < 0 || value.maxDeathsThresholds < 0) &&
+        value.minColorDeathsThresholds ===
+          value.mediumColorDeathsThresholds) ||
+      ((value.minDeathsThresholds < 0 || value.maxDeathsThresholds < 0) &&
+        value.mediumColorDeathsThresholds ===
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text:
+          'La soglia inserita non può essere minore di 0 e i colori inseriti non possono essere uguali!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      (value.minDeathsThresholds < 0 &&
+        value.maxDeathsThresholds < 0 &&
+        value.minColorDeathsThresholds !==
+          value.maxColorDeathsThresholds) ||
+      (value.minDeathsThresholds < 0 &&
+        value.maxDeathsThresholds < 0 &&
+        value.minColorDeathsThresholds !==
+          value.mediumColorDeathsThresholds) ||
+      (value.minDeathsThresholds < 0 &&
+        value.maxDeathsThresholds < 0 &&
+        value.mediumColorDeathsThresholds !==
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'Le soglie inserite non possono essere minori di 0!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      ((value.minDeathsThresholds < 0 || value.maxDeathsThresholds < 0) &&
+        value.minColorDeathsThresholds !==
+          value.maxColorDeathsThresholds) ||
+      ((value.minDeathsThresholds < 0 || value.maxDeathsThresholds < 0) &&
+        value.minColorDeathsThresholds !==
+          value.mediumColorDeathsThresholds) ||
+      ((value.minDeathsThresholds < 0 || value.maxDeathsThresholds < 0) &&
+        value.mediumColorDeathsThresholds !==
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'La soglia inserita non può essere minore di 0!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      (value.minDeathsThresholds > 98 &&
+        value.maxDeathsThresholds > 99 &&
+        value.minColorDeathsThresholds ===
+          value.maxColorDeathsThresholds) ||
+      (value.minDeathsThresholds > 98 &&
+        value.maxDeathsThresholds > 99 &&
+        value.minColorDeathsThresholds ===
+          value.mediumColorDeathsThresholds) ||
+      (value.minDeathsThresholds > 98 &&
+        value.maxDeathsThresholds > 99 &&
+        value.mediumColorDeathsThresholds ===
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text:
+          'Le soglie inserite non possono essere maggiori o uguali a 99/100 e i colori inseriti non possono essere uguali!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      (value.minDeathsThresholds > 98 &&
+        value.maxDeathsThresholds > 99 &&
+        value.minColorDeathsThresholds !==
+          value.maxColorDeathsThresholds) ||
+      (value.minDeathsThresholds > 98 &&
+        value.maxDeathsThresholds > 99 &&
+        value.minColorDeathsThresholds !==
+          value.mediumColorDeathsThresholds) ||
+      (value.minDeathsThresholds > 98 &&
+        value.maxDeathsThresholds > 99 &&
+        value.mediumColorDeathsThresholds !==
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text:
+          'Le soglie inserite non possono essere maggiori o uguali a 99/100!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      ((value.minDeathsThresholds > 98 || value.maxDeathsThresholds > 99) &&
+        value.minColorDeathsThresholds ===
+          value.maxColorDeathsThresholds) ||
+      ((value.minDeathsThresholds > 99 || value.maxDeathsThresholds > 99) &&
+        value.minColorDeathsThresholds ===
+          value.mediumColorDeathsThresholds) ||
+      ((value.minDeathsThresholds > 98 || value.maxDeathsThresholds > 99) &&
+        value.mediumColorDeathsThresholds ===
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text:
+          'La soglia inserita non può essere maggiore o uguale a 99/100 e i colori inseriti non possono essere uguali',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      ((value.minDeathsThresholds > 98 || value.maxDeathsThresholds > 99) &&
+        value.minColorDeathsThresholds !==
+          value.maxColorDeathsThresholds) ||
+      ((value.minDeathsThresholds > 98 || value.maxDeathsThresholds > 99) &&
+        value.minColorDeathsThresholds !==
+          value.mediumColorDeathsThresholds) ||
+      ((value.minDeathsThresholds > 98 || value.maxDeathsThresholds > 99) &&
+        value.mediumColorDeathsThresholds !==
+          value.maxColorDeathsThresholds)
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'La soglia inserita non può essere maggiore o uguale a 99/100!',
         type: 'error',
         confirmButtonText: 'Riprova',
       });
     }
   }
-
 }
