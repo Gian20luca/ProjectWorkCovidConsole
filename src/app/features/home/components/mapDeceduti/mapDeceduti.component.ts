@@ -24,7 +24,7 @@ export class MapDeathsComponent implements OnInit {
   indexMyJsonRegione: number = 0;
   indexMyJsonSoglie: number = 2;
   indexMyJsonSoglieDeaths: number = 1;
-
+  contentDiv: string = '';
 
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
@@ -97,7 +97,7 @@ export class MapDeathsComponent implements OnInit {
       mediumColorDeathsThresholds,
       maxColorDeathsThresholds
     ) => {
-      if ((deaths / population)*100 <= minDeathsThresholds) {
+      if ((deaths / population) * 100 <= minDeathsThresholds) {
         return {
           color: 'black',
           fillColor: minColorDeathsThresholds,
@@ -107,8 +107,8 @@ export class MapDeathsComponent implements OnInit {
         };
       }
       if (
-        (deaths / population)*100 > minDeathsThresholds &&
-        (deaths / population)*100 <= maxDeathsThresholds
+        (deaths / population) * 100 > minDeathsThresholds &&
+        (deaths / population) * 100 <= maxDeathsThresholds
       ) {
         return {
           color: 'black',
@@ -118,7 +118,7 @@ export class MapDeathsComponent implements OnInit {
           weight: 0.6,
         };
       }
-      if ((deaths / population)*100 > maxDeathsThresholds) {
+      if ((deaths / population) * 100 > maxDeathsThresholds) {
         return {
           color: 'black',
           fillColor: maxColorDeathsThresholds,
@@ -131,9 +131,7 @@ export class MapDeathsComponent implements OnInit {
 
     //chiamate alle 3 api per fare il fork ed avere un array con le 3 risposte
     let MyJson = this.http.get<Object>('http://localhost:3000/regione');
-    let MyJsonSoglie = this.http.get<Object>(
-      'http://localhost:3000/soglie'
-    );
+    let MyJsonSoglie = this.http.get<Object>('http://localhost:3000/soglie');
     let GeoJson = this.http.get<GeoJsonObject>(
       'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson'
     );
@@ -148,13 +146,22 @@ export class MapDeathsComponent implements OnInit {
             switch ((features.properties.reg_istat_code_num - 1) as number) {
               case i:
                 return controlNumber(
-                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1].population,
-                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1].deaths,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].minDeathsThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].maxDeathsThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].minColorDeathsThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].mediumColorDeathsThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].maxColorDeathsThresholds
+                  res[this.indexMyJsonRegione][
+                    features.properties.reg_istat_code_num - 1
+                  ].population,
+                  res[this.indexMyJsonRegione][
+                    features.properties.reg_istat_code_num - 1
+                  ].deaths,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+                    .minDeathsThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+                    .maxDeathsThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+                    .minColorDeathsThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+                    .mediumColorDeathsThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+                    .maxColorDeathsThresholds
                 );
             }
           }
@@ -165,34 +172,44 @@ export class MapDeathsComponent implements OnInit {
       legend.onAdd = () => {
         let div = L.DomUtil.create('div'),
           thresholds = [
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].minDeathsThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].maxDeathsThresholds,
+            0,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+              .minDeathsThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+              .maxDeathsThresholds,
+            100,
           ],
           colors = [
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].minColorDeathsThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].mediumColorDeathsThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].maxColorDeathsThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+              .minColorDeathsThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+              .mediumColorDeathsThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths]
+              .maxColorDeathsThresholds,
+          ],
+          strings = [
+            'Bassa densità decessi',
+            'Media densità decessi',
+            'Alta densità decessi',
           ];
 
-          div.innerHTML =
-          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Bassa densità decessi</span> <br><i class="fa fa-square" style="color:' +
-          colors[0] +
-          ';font-size:18px;"></i> ' +
-          '0% - ' +
-          thresholds[0]+'%' +
-          '<br>' +
-          '<span style="font-size:15px;">Media densità decessi</span> <br><i class="fa fa-square" style="color:' +
-          colors[1] +
-          ';font-size:18px;"></i> ' +
-          thresholds[0]+'%' +
-          ' - ' +
-          thresholds[1]+'%' +
-          '<br>' +
-          '<span style="font-size:15px;">Alta densità decessi </span><br><i class="fa fa-square" style="color:' +
-          colors[2] +
-          ';font-size:18px;"></i> ' +
-          thresholds[1]+'%' +
-          ' - 100%</div>';
+        for (let i = 0; i < colors.length; i++) {
+          this.contentDiv +=
+            '<span style="font-size:15px;">' +
+            strings[i] +
+            '</span><br><i class="fa fa-square" style="color:' +
+            colors[i] +
+            ';font-size:18px;"></i> ' +
+            thresholds[i] +
+            '% -' +
+            thresholds[i + 1] +
+            '%<br>';
+        }
+
+        div.innerHTML =
+          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;">' +
+          this.contentDiv +
+          '</div>';
 
         return div;
       };

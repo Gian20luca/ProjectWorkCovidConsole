@@ -24,10 +24,11 @@ export class MapPositiviComponent implements OnInit {
   indexMyJsonRegione: number = 0;
   indexMyJsonSoglie: number = 2;
   indexMyJsonSogliePositive: number = 0;
+  contentDiv: string = '';
+
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-
     this.http
       .get('http://localhost:3000/regione')
       .subscribe((response) => (this.rispostaScroll = response));
@@ -95,7 +96,7 @@ export class MapPositiviComponent implements OnInit {
       mediumColorPositiveThresholds,
       maxColorPositiveThresholds
     ) => {
-      if ((positive / population)*100 <= minPositiveThresholds) {
+      if ((positive / population) * 100 <= minPositiveThresholds) {
         return {
           color: 'black',
           fillColor: minColorPositiveThresholds,
@@ -105,8 +106,8 @@ export class MapPositiviComponent implements OnInit {
         };
       }
       if (
-        (positive / population)*100 > minPositiveThresholds &&
-        (positive / population)*100 <= maxPositiveThresholds
+        (positive / population) * 100 > minPositiveThresholds &&
+        (positive / population) * 100 <= maxPositiveThresholds
       ) {
         return {
           color: 'black',
@@ -116,7 +117,7 @@ export class MapPositiviComponent implements OnInit {
           weight: 0.6,
         };
       }
-      if ((positive / population)*100 > maxPositiveThresholds) {
+      if ((positive / population) * 100 > maxPositiveThresholds) {
         return {
           color: 'black',
           fillColor: maxColorPositiveThresholds,
@@ -128,12 +129,8 @@ export class MapPositiviComponent implements OnInit {
     };
 
     //chiamate alle 3 api per fare il fork ed avere un array con le 3 risposte
-    let MyJsonRegione = this.http.get<Object>(
-      'http://localhost:3000/regione'
-    );
-    let MyJsonSoglie = this.http.get<Object>(
-      'http://localhost:3000/soglie'
-    );
+    let MyJsonRegione = this.http.get<Object>('http://localhost:3000/regione');
+    let MyJsonSoglie = this.http.get<Object>('http://localhost:3000/soglie');
     let GeoJson = this.http.get<GeoJsonObject>(
       'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson'
     );
@@ -149,13 +146,22 @@ export class MapPositiviComponent implements OnInit {
             switch ((features.properties.reg_istat_code_num - 1) as number) {
               case i:
                 return controlNumber(
-                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1].population,
-                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1].positive,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].minPositiveThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].maxPositiveThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].minColorPositiveThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].mediumColorPositiveThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].maxColorPositiveThresholds
+                  res[this.indexMyJsonRegione][
+                    features.properties.reg_istat_code_num - 1
+                  ].population,
+                  res[this.indexMyJsonRegione][
+                    features.properties.reg_istat_code_num - 1
+                  ].positive,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive]
+                    .minPositiveThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive]
+                    .maxPositiveThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive]
+                    .minColorPositiveThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive]
+                    .mediumColorPositiveThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive]
+                    .maxColorPositiveThresholds
                 );
             }
           }
@@ -167,34 +173,49 @@ export class MapPositiviComponent implements OnInit {
       legend.onAdd = () => {
         let div = L.DomUtil.create('div'),
           thresholds = [
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].minPositiveThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].maxPositiveThresholds,
+            0,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSogliePositive
+            ].minPositiveThresholds,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSogliePositive
+            ].maxPositiveThresholds,
+            100,
           ],
           colors = [
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].minColorPositiveThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].mediumColorPositiveThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].maxColorPositiveThresholds,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSogliePositive
+            ].minColorPositiveThresholds,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSogliePositive
+            ].mediumColorPositiveThresholds,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSogliePositive
+            ].maxColorPositiveThresholds,
+          ],
+          strings = [
+            'Zona basso rischio',
+            'Zona medio rischio',
+            'Zona alto rischio',
           ];
 
+        for (let i = 0; i < colors.length; i++) {
+          this.contentDiv +=
+            '<span style="font-size:15px;">' +
+            strings[i] +
+            '</span><br><i class="fa fa-square" style="color:' +
+            colors[i] +
+            ';font-size:18px;"></i> ' +
+            thresholds[i] +
+            '% -' +
+            thresholds[i + 1] +
+            '%<br>';
+        }
+
         div.innerHTML =
-          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Zona basso rischio</span> <br><i class="fa fa-square" style="color:' +
-          colors[0] +
-          ';font-size:18px;"></i> ' +
-          '0% - ' +
-          thresholds[0]+'%' +
-          '<br>' +
-          '<span style="font-size:15px;">Zona medio rischio</span> <br><i class="fa fa-square" style="color:' +
-          colors[1] +
-          ';font-size:18px;"></i> ' +
-          thresholds[0]+'%' +
-          ' - ' +
-          thresholds[1]+'%' +
-          '<br>' +
-          '<span style="font-size:15px;">Zona alto rischio </span><br><i class="fa fa-square" style="color:' +
-          colors[2] +
-          ';font-size:18px;"></i> ' +
-          thresholds[1]+'%' +
-          ' - 100%</div>';
+          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;">' +
+          this.contentDiv +
+          '</div>';
 
         return div;
       };

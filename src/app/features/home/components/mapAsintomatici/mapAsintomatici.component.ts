@@ -24,6 +24,7 @@ export class MapAsintomaticiComponent implements OnInit {
   indexMyJsonRegione: number = 0;
   indexMyJsonSoglie: number = 2;
   indexMyJsonSoglieAsymptomatic: number = 2;
+  contentDiv: string = '';
 
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
@@ -97,7 +98,7 @@ export class MapAsintomaticiComponent implements OnInit {
       mediumColorAsymptomaticThresholds,
       maxColorAsymptomaticThresholds
     ) => {
-      if ((asymptomatic / positive)*100 <= minAsymptomaticThresholds) {
+      if ((asymptomatic / positive) * 100 <= minAsymptomaticThresholds) {
         return {
           color: 'black',
           fillColor: minColorAsymptomaticThresholds,
@@ -107,8 +108,8 @@ export class MapAsintomaticiComponent implements OnInit {
         };
       }
       if (
-        (asymptomatic / positive)*100 > minAsymptomaticThresholds &&
-        (asymptomatic / positive)*100 <= maxAsymptomaticThresholds
+        (asymptomatic / positive) * 100 > minAsymptomaticThresholds &&
+        (asymptomatic / positive) * 100 <= maxAsymptomaticThresholds
       ) {
         return {
           color: 'black',
@@ -118,7 +119,7 @@ export class MapAsintomaticiComponent implements OnInit {
           weight: 0.6,
         };
       }
-      if ((asymptomatic / positive)*100 > maxAsymptomaticThresholds) {
+      if ((asymptomatic / positive) * 100 > maxAsymptomaticThresholds) {
         return {
           color: 'black',
           fillColor: maxColorAsymptomaticThresholds,
@@ -131,9 +132,7 @@ export class MapAsintomaticiComponent implements OnInit {
 
     //chiamate alle 3 api per fare il fork ed avere un array con le 3 risposte
     let MyJson = this.http.get<Object>('http://localhost:3000/regione');
-    let MyJsonSoglie = this.http.get<Object>(
-      'http://localhost:3000/soglie'
-    );
+    let MyJsonSoglie = this.http.get<Object>('http://localhost:3000/soglie');
     let GeoJson = this.http.get<GeoJsonObject>(
       'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson'
     );
@@ -148,15 +147,27 @@ export class MapAsintomaticiComponent implements OnInit {
             switch ((features.properties.reg_istat_code_num - 1) as number) {
               case i:
                 return controlNumber(
-                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1]
-                    .positive,
-                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1]
-                    .asymptomatic,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].minAsymptomaticThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].maxAsymptomaticThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].minColorAsymptomaticThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].mediumColorAsymptomaticThresholds,
-                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].maxColorAsymptomaticThresholds
+                  res[this.indexMyJsonRegione][
+                    features.properties.reg_istat_code_num - 1
+                  ].positive,
+                  res[this.indexMyJsonRegione][
+                    features.properties.reg_istat_code_num - 1
+                  ].asymptomatic,
+                  res[this.indexMyJsonSoglie][
+                    this.indexMyJsonSoglieAsymptomatic
+                  ].minAsymptomaticThresholds,
+                  res[this.indexMyJsonSoglie][
+                    this.indexMyJsonSoglieAsymptomatic
+                  ].maxAsymptomaticThresholds,
+                  res[this.indexMyJsonSoglie][
+                    this.indexMyJsonSoglieAsymptomatic
+                  ].minColorAsymptomaticThresholds,
+                  res[this.indexMyJsonSoglie][
+                    this.indexMyJsonSoglieAsymptomatic
+                  ].mediumColorAsymptomaticThresholds,
+                  res[this.indexMyJsonSoglie][
+                    this.indexMyJsonSoglieAsymptomatic
+                  ].maxColorAsymptomaticThresholds
                 );
             }
           }
@@ -167,34 +178,49 @@ export class MapAsintomaticiComponent implements OnInit {
       legend.onAdd = () => {
         let div = L.DomUtil.create('div'),
           thresholds = [
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].minAsymptomaticThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].maxAsymptomaticThresholds,
+            0,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSoglieAsymptomatic
+            ].minAsymptomaticThresholds,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSoglieAsymptomatic
+            ].maxAsymptomaticThresholds,
+            100,
           ],
           colors = [
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].minColorAsymptomaticThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].mediumColorAsymptomaticThresholds,
-            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].maxColorAsymptomaticThresholds,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSoglieAsymptomatic
+            ].minColorAsymptomaticThresholds,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSoglieAsymptomatic
+            ].mediumColorAsymptomaticThresholds,
+            this.risposta[this.indexMyJsonSoglie][
+              this.indexMyJsonSoglieAsymptomatic
+            ].maxColorAsymptomaticThresholds,
+          ],
+          strings = [
+            'Zona basso rischio',
+            'Zona medio rischio',
+            'Zona alto rischio',
           ];
 
-          div.innerHTML =
-          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Zona basso rischio</span> <br><i class="fa fa-square" style="color:' +
-          colors[0] +
-          ';font-size:18px;"></i> ' +
-          '0% - ' +
-          thresholds[0]+'%' +
-          '<br>' +
-          '<span style="font-size:15px;">Zona medio rischio</span> <br><i class="fa fa-square" style="color:' +
-          colors[1] +
-          ';font-size:18px;"></i> ' +
-          thresholds[0]+'%' +
-          ' - ' +
-          thresholds[1]+'%' +
-          '<br>' +
-          '<span style="font-size:15px;">Zona alto rischio </span><br><i class="fa fa-square" style="color:' +
-          colors[2] +
-          ';font-size:18px;"></i> ' +
-          thresholds[1]+'%' +
-          ' - 100%</div>';
+        for (let i = 0; i < colors.length; i++) {
+          this.contentDiv +=
+            '<span style="font-size:15px;">' +
+            strings[i] +
+            '</span><br><i class="fa fa-square" style="color:' +
+            colors[i] +
+            ';font-size:18px;"></i> ' +
+            thresholds[i] +
+            '% -' +
+            thresholds[i + 1] +
+            '%<br>';
+        }
+
+        div.innerHTML =
+          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;">' +
+          this.contentDiv +
+          '</div>';
 
         return div;
       };
