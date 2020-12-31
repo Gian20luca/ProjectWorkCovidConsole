@@ -1,76 +1,69 @@
-<div class="container">
+<div class="container" style="margin-bottom: -30px;">
   <h2>Gestione soglie</h2>
   <div class="row">
-    <div class="offset-md-3 col-md-6 offset-md-3">
-      <form
-        *ngIf="response"
-        #f="ngForm"
-        class="card card-body mt-3"
-        (ngSubmit)="onSubmit(f.value)"
-      >
-        <label>Soglia inferiore:</label>
-        <input
-          name="minAsymptomaticThresholds"
-          [ngModel]="response.minAsymptomaticThresholds"
-          type="number"
-          min="0"
-          max="99"
-          class="form-control"
-          placeholder="Inserisci soglie inferiore"
-          id="minAsymptomaticThresholds"
-        />
-        <br />
-        <label>Soglia Superiore:</label>
-        <input
-          name="maxAsymptomaticThresholds"
-          [ngModel]="response.maxAsymptomaticThresholds"
-          type="number"
-          min="0"
-          max="100"
-          class="form-control"
-          placeholder="Inserisci soglie superiore"
-          id="maxAsymptomaticThresholds"
-        />
-        <br />
-        <label>Modifica Colore Primo Range</label>
+    <div class="offset-md-2 col-md-8 offset-md-2">
 
-        <input
-          type="color"
-          name="minColorAsymptomaticThresholds"
-          [ngModel]="response.minColorAsymptomaticThresholds"
-          class="form-control"
-          id="minColorAsymptomaticThresholds"
-        />
+      <form *ngIf="response" #f="ngForm" class="card card-body mt-3 form-group" (ngSubmit)="onSubmit(f.value)">
 
-        <br />
+        <div class="row">
+          <div class="col-md-6">
+            <label>Soglia inferiore:</label>
+            <input name="minAsymptomaticThresholds" [ngModel]="response.minAsymptomaticThresholds" type="number" min="0"
+              max="99" class="form-control" placeholder="Inserisci soglia inferiore" id="minAsymptomaticThresholds" />
 
-        <label>Modifica Colore Secondo Range</label>
-        <input
-          type="color"
-          name="mediumColorAsymptomaticThresholds"
-          [ngModel]="response.mediumColorAsymptomaticThresholds"
-          class="form-control"
-          id="mediumColorAsymptomaticThresholds"
-        />
-        <br />
+          </div>
 
-        <label>Modifica Colore Terzo Range</label>
-        <input
-          type="color"
-          name="maxColorAsymptomaticThresholds"
-          [ngModel]="response.maxColorAsymptomaticThresholds"
-          class="form-control"
-          id="maxColorAsymptomaticThresholds"
-        />
-        <br />
-        <button
-          class="btn"
-          [disabled]="f.invalid"
-          [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-        >
-          Salva
-        </button>
+          <div class="col-md-6">
+            <label>Modifica Colore Primo Range</label>
+
+            <input type="color" name="minColorAsymptomaticThresholds"
+              [ngModel]="response.minColorAsymptomaticThresholds" class="form-control"
+              id="minColorAsymptomaticThresholds" />
+
+          </div>
+        </div>
+        <br>
+        <div class="row">
+
+          <div class="col-md-6">
+            <label>Soglia Superiore:</label>
+            <input name="maxAsymptomaticThresholds" [ngModel]="response.maxAsymptomaticThresholds" type="number" min="0"
+              max="100" class="form-control" placeholder="Inserisci soglia superiore" id="maxAsymptomaticThresholds" />
+
+          </div>
+          <div class="col-md-6">
+            <label>Modifica Colore Secondo Range</label>
+            <input type="color" name="mediumColorAsymptomaticThresholds"
+              [ngModel]="response.mediumColorAsymptomaticThresholds" class="form-control"
+              id="mediumColorAsymptomaticThresholds" />
+
+          </div>
+
+
+        </div>
+        <br>
+        <div class="row">
+          <div class="offset-md-6 col-md-6">
+            <label>Modifica Colore Terzo Range</label>
+            <input type="color" name="maxColorAsymptomaticThresholds"
+              [ngModel]="response.maxColorAsymptomaticThresholds" class="form-control"
+              id="maxColorAsymptomaticThresholds" />
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+          <div class=" col-md-10 ">
+            <button class="btn btn-block" [disabled]="f.invalid"
+              [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }">
+              Salva
+            </button>
+          </div>
+        </div>
+
       </form>
+
+
+
     </div>
   </div>
 </div>

@@ -14,13 +14,16 @@ export class MapAsintomaticiComponent implements OnInit {
 
   bounds1 = L.latLng(42, 13);
   bounds2 = L.latLng(42, 12);
-  options;
-  risposta;
-  rispostaScroll;
-  geojson;
-  dettagliRegione;
+  options: any;
+  risposta: Object;
+  rispostaScroll: Object;
+  geojson: any;
+  dettagliRegione: any;
   public resGeojson: GeoJsonObject;
-  public resJson: GeoJsonObject;
+  public resJson: Object;
+  indexMyJsonRegione: number = 0;
+  indexMyJsonSoglie: number = 2;
+  indexMyJsonSoglieAsymptomatic: number = 2;
 
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
@@ -127,8 +130,8 @@ export class MapAsintomaticiComponent implements OnInit {
     };
 
     //chiamate alle 3 api per fare il fork ed avere un array con le 3 risposte
-    let MyJson = this.http.get<GeoJsonObject>('http://localhost:3000/regione');
-    let MyJsonSoglie = this.http.get<GeoJsonObject>(
+    let MyJson = this.http.get<Object>('http://localhost:3000/regione');
+    let MyJsonSoglie = this.http.get<Object>(
       'http://localhost:3000/soglie'
     );
     let GeoJson = this.http.get<GeoJsonObject>(
@@ -145,15 +148,15 @@ export class MapAsintomaticiComponent implements OnInit {
             switch ((features.properties.reg_istat_code_num - 1) as number) {
               case i:
                 return controlNumber(
-                  res[0][features.properties.reg_istat_code_num - 1]
+                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1]
                     .positive,
-                  res[0][features.properties.reg_istat_code_num - 1]
+                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1]
                     .asymptomatic,
-                  res[2][2].minAsymptomaticThresholds,
-                  res[2][2].maxAsymptomaticThresholds,
-                  res[2][2].minColorAsymptomaticThresholds,
-                  res[2][2].mediumColorAsymptomaticThresholds,
-                  res[2][2].maxColorAsymptomaticThresholds
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].minAsymptomaticThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].maxAsymptomaticThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].minColorAsymptomaticThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].mediumColorAsymptomaticThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].maxColorAsymptomaticThresholds
                 );
             }
           }
@@ -161,36 +164,36 @@ export class MapAsintomaticiComponent implements OnInit {
       }).addTo(map);
       const legend = L.control.attribution({ position: 'bottomleft' });
 
-      legend.onAdd = (map) => {
+      legend.onAdd = () => {
         let div = L.DomUtil.create('div'),
-          grades = [
-            this.risposta[2][2].minAsymptomaticThresholds,
-            this.risposta[2][2].maxAsymptomaticThresholds,
+          thresholds = [
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].minAsymptomaticThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].maxAsymptomaticThresholds,
           ],
-          labels = [
-            this.risposta[2][2].minColorAsymptomaticThresholds,
-            this.risposta[2][2].mediumColorAsymptomaticThresholds,
-            this.risposta[2][2].maxColorAsymptomaticThresholds,
+          colors = [
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].minColorAsymptomaticThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].mediumColorAsymptomaticThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieAsymptomatic].maxColorAsymptomaticThresholds,
           ];
 
           div.innerHTML =
           '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Zona basso rischio</span> <br><i class="fa fa-square" style="color:' +
-          labels[0] +
+          colors[0] +
           ';font-size:18px;"></i> ' +
           '0% - ' +
-          grades[0]+'%' +
+          thresholds[0]+'%' +
           '<br>' +
           '<span style="font-size:15px;">Zona medio rischio</span> <br><i class="fa fa-square" style="color:' +
-          labels[1] +
+          colors[1] +
           ';font-size:18px;"></i> ' +
-          grades[0]+'%' +
+          thresholds[0]+'%' +
           ' - ' +
-          grades[1]+'%' +
+          thresholds[1]+'%' +
           '<br>' +
           '<span style="font-size:15px;">Zona alto rischio </span><br><i class="fa fa-square" style="color:' +
-          labels[2] +
+          colors[2] +
           ';font-size:18px;"></i> ' +
-          grades[1]+'%' +
+          thresholds[1]+'%' +
           ' - 100%</div>';
 
         return div;
@@ -199,7 +202,7 @@ export class MapAsintomaticiComponent implements OnInit {
       legend.addTo(map);
     });
   }
-  closeShowDetails() {
+  closeShowDetails(): void {
     this.dettagliRegione = null;
     this.cd.detectChanges();
   }

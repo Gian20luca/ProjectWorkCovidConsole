@@ -10,7 +10,7 @@ import { MinLengthValidator } from '@angular/forms';
   styleUrls: ['./managepositivethresholds.component.css'],
 })
 export class ManagepositivethresholdsComponent {
-  response;
+  response: any;
   constructor(private http: HttpClient, private _router: Router) {
     this.http
       .get('http://localhost:3000/soglie/1')

@@ -9,7 +9,7 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
   styleUrls: ['./managedeathsthresholds.component.css'],
 })
 export class ManagedeathsthresholdsComponent {
-  response;
+  response: any;
 
   constructor(private http: HttpClient, private _router: Router) {
     this.http

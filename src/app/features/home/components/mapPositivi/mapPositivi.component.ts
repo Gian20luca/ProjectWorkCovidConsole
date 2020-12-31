@@ -14,13 +14,16 @@ export class MapPositiviComponent implements OnInit {
 
   bounds1 = L.latLng(42, 13);
   bounds2 = L.latLng(42, 12);
-  options;
-  risposta;
-  rispostaScroll;
-  geojson;
-  dettagliRegione;
+  options: any;
+  risposta: Object;
+  rispostaScroll: Object;
+  geojson: any;
+  dettagliRegione: any;
   public resGeojson: GeoJsonObject;
-  public resJson: GeoJsonObject;
+  public resJson: Object;
+  indexMyJsonRegione: number = 0;
+  indexMyJsonSoglie: number = 2;
+  indexMyJsonSogliePositive: number = 0;
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -125,10 +128,10 @@ export class MapPositiviComponent implements OnInit {
     };
 
     //chiamate alle 3 api per fare il fork ed avere un array con le 3 risposte
-    let MyJsonRegione = this.http.get<GeoJsonObject>(
+    let MyJsonRegione = this.http.get<Object>(
       'http://localhost:3000/regione'
     );
-    let MyJsonSoglie = this.http.get<GeoJsonObject>(
+    let MyJsonSoglie = this.http.get<Object>(
       'http://localhost:3000/soglie'
     );
     let GeoJson = this.http.get<GeoJsonObject>(
@@ -146,50 +149,51 @@ export class MapPositiviComponent implements OnInit {
             switch ((features.properties.reg_istat_code_num - 1) as number) {
               case i:
                 return controlNumber(
-                  res[0][features.properties.reg_istat_code_num - 1].population,
-                  res[0][features.properties.reg_istat_code_num - 1].positive,
-                  res[2][0].minPositiveThresholds,
-                  res[2][0].maxPositiveThresholds,
-                  res[2][0].minColorPositiveThresholds,
-                  res[2][0].mediumColorPositiveThresholds,
-                  res[2][0].maxColorPositiveThresholds
+                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1].population,
+                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1].positive,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].minPositiveThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].maxPositiveThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].minColorPositiveThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].mediumColorPositiveThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].maxColorPositiveThresholds
                 );
             }
           }
         },
       }).addTo(map);
+
       const legend = L.control.attribution({ position: 'bottomleft' });
 
-      legend.onAdd = (map) => {
+      legend.onAdd = () => {
         let div = L.DomUtil.create('div'),
-          grades = [
-            this.risposta[2][0].minPositiveThresholds,
-            this.risposta[2][0].maxPositiveThresholds,
+          thresholds = [
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].minPositiveThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].maxPositiveThresholds,
           ],
-          labels = [
-            this.risposta[2][0].minColorPositiveThresholds,
-            this.risposta[2][0].mediumColorPositiveThresholds,
-            this.risposta[2][0].maxColorPositiveThresholds,
+          colors = [
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].minColorPositiveThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].mediumColorPositiveThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSogliePositive].maxColorPositiveThresholds,
           ];
 
         div.innerHTML =
           '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Zona basso rischio</span> <br><i class="fa fa-square" style="color:' +
-          labels[0] +
+          colors[0] +
           ';font-size:18px;"></i> ' +
           '0% - ' +
-          grades[0]+'%' +
+          thresholds[0]+'%' +
           '<br>' +
           '<span style="font-size:15px;">Zona medio rischio</span> <br><i class="fa fa-square" style="color:' +
-          labels[1] +
+          colors[1] +
           ';font-size:18px;"></i> ' +
-          grades[0]+'%' +
+          thresholds[0]+'%' +
           ' - ' +
-          grades[1]+'%' +
+          thresholds[1]+'%' +
           '<br>' +
           '<span style="font-size:15px;">Zona alto rischio </span><br><i class="fa fa-square" style="color:' +
-          labels[2] +
+          colors[2] +
           ';font-size:18px;"></i> ' +
-          grades[1]+'%' +
+          thresholds[1]+'%' +
           ' - 100%</div>';
 
         return div;
@@ -198,7 +202,7 @@ export class MapPositiviComponent implements OnInit {
       legend.addTo(map);
     });
   }
-  closeShowDetails() {
+  closeShowDetails(): void {
     this.dettagliRegione = null;
     this.cd.detectChanges();
   }

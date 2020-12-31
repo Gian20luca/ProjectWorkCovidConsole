@@ -14,13 +14,17 @@ export class MapDeathsComponent implements OnInit {
 
   bounds1 = L.latLng(42, 13);
   bounds2 = L.latLng(42, 12);
-  options;
-  risposta;
-  rispostaScroll;
-  geojson;
-  dettagliRegione;
+  options: any;
+  risposta: Object;
+  rispostaScroll: Object;
+  geojson: any;
+  dettagliRegione: any;
   public resGeojson: GeoJsonObject;
-  public resJson: GeoJsonObject;
+  public resJson: Object;
+  indexMyJsonRegione: number = 0;
+  indexMyJsonSoglie: number = 2;
+  indexMyJsonSoglieDeaths: number = 1;
+
 
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
@@ -126,8 +130,8 @@ export class MapDeathsComponent implements OnInit {
     };
 
     //chiamate alle 3 api per fare il fork ed avere un array con le 3 risposte
-    let MyJson = this.http.get<GeoJsonObject>('http://localhost:3000/regione');
-    let MyJsonSoglie = this.http.get<GeoJsonObject>(
+    let MyJson = this.http.get<Object>('http://localhost:3000/regione');
+    let MyJsonSoglie = this.http.get<Object>(
       'http://localhost:3000/soglie'
     );
     let GeoJson = this.http.get<GeoJsonObject>(
@@ -144,13 +148,13 @@ export class MapDeathsComponent implements OnInit {
             switch ((features.properties.reg_istat_code_num - 1) as number) {
               case i:
                 return controlNumber(
-                  res[0][features.properties.reg_istat_code_num - 1].population,
-                  res[0][features.properties.reg_istat_code_num - 1].deaths,
-                  res[2][1].minDeathsThresholds,
-                  res[2][1].maxDeathsThresholds,
-                  res[2][1].minColorDeathsThresholds,
-                  res[2][1].mediumColorDeathsThresholds,
-                  res[2][1].maxColorDeathsThresholds
+                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1].population,
+                  res[this.indexMyJsonRegione][features.properties.reg_istat_code_num - 1].deaths,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].minDeathsThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].maxDeathsThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].minColorDeathsThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].mediumColorDeathsThresholds,
+                  res[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].maxColorDeathsThresholds
                 );
             }
           }
@@ -158,36 +162,36 @@ export class MapDeathsComponent implements OnInit {
       }).addTo(map);
       const legend = L.control.attribution({ position: 'bottomleft' });
 
-      legend.onAdd = (map) => {
+      legend.onAdd = () => {
         let div = L.DomUtil.create('div'),
-          grades = [
-            this.risposta[2][1].minDeathsThresholds,
-            this.risposta[2][1].maxDeathsThresholds,
+          thresholds = [
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].minDeathsThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].maxDeathsThresholds,
           ],
-          labels = [
-            this.risposta[2][1].minColorDeathsThresholds,
-            this.risposta[2][1].mediumColorDeathsThresholds,
-            this.risposta[2][1].maxColorDeathsThresholds,
+          colors = [
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].minColorDeathsThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].mediumColorDeathsThresholds,
+            this.risposta[this.indexMyJsonSoglie][this.indexMyJsonSoglieDeaths].maxColorDeathsThresholds,
           ];
 
           div.innerHTML =
-          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Zona basso rischio</span> <br><i class="fa fa-square" style="color:' +
-          labels[0] +
+          '<div style="border: 2px solid black;font-size:14x;background-color:rgba(255,255,255,0.8);padding:15px;border-radius:15px;"> <span style="font-size:15px;">Bassa densità decessi</span> <br><i class="fa fa-square" style="color:' +
+          colors[0] +
           ';font-size:18px;"></i> ' +
           '0% - ' +
-          grades[0]+'%' +
+          thresholds[0]+'%' +
           '<br>' +
-          '<span style="font-size:15px;">Zona medio rischio</span> <br><i class="fa fa-square" style="color:' +
-          labels[1] +
+          '<span style="font-size:15px;">Media densità decessi</span> <br><i class="fa fa-square" style="color:' +
+          colors[1] +
           ';font-size:18px;"></i> ' +
-          grades[0]+'%' +
+          thresholds[0]+'%' +
           ' - ' +
-          grades[1]+'%' +
+          thresholds[1]+'%' +
           '<br>' +
-          '<span style="font-size:15px;">Zona alto rischio </span><br><i class="fa fa-square" style="color:' +
-          labels[2] +
+          '<span style="font-size:15px;">Alta densità decessi </span><br><i class="fa fa-square" style="color:' +
+          colors[2] +
           ';font-size:18px;"></i> ' +
-          grades[1]+'%' +
+          thresholds[1]+'%' +
           ' - 100%</div>';
 
         return div;
@@ -196,7 +200,7 @@ export class MapDeathsComponent implements OnInit {
       legend.addTo(map);
     });
   }
-  closeShowDetails() {
+  closeShowDetails(): void {
     this.dettagliRegione = null;
     this.cd.detectChanges();
   }

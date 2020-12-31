@@ -186,25 +186,25 @@
       "id": 1,
       "minPositiveThresholds": 25,
       "maxPositiveThresholds": 50,
-      "minColorPositiveThresholds": "#fbff00",
+      "minColorPositiveThresholds": "#eeff00",
       "mediumColorPositiveThresholds": "#ff8800",
-      "maxColorPositiveThresholds": "#f00c0b"
+      "maxColorPositiveThresholds": "#ff0000"
     },
     {
       "id": 2,
       "minDeathsThresholds": 25,
       "maxDeathsThresholds": 50,
-      "minColorDeathsThresholds": "#d2d2c6",
-      "mediumColorDeathsThresholds": "#828282",
+      "minColorDeathsThresholds": "#c5c5c4",
+      "mediumColorDeathsThresholds": "#7d7d7d",
       "maxColorDeathsThresholds": "#000000"
     },
     {
       "id": 3,
       "minAsymptomaticThresholds": 25,
       "maxAsymptomaticThresholds": 50,
-      "minColorAsymptomaticThresholds": "#accede",
-      "mediumColorAsymptomaticThresholds": "#0e4bef",
-      "maxColorAsymptomaticThresholds": "#020894"
+      "minColorAsymptomaticThresholds": "#00bfff",
+      "mediumColorAsymptomaticThresholds": "#0044ff",
+      "maxColorAsymptomaticThresholds": "#010698"
     }
   ]
 }

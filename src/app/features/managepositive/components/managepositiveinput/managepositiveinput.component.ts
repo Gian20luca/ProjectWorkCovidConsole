@@ -9,7 +9,7 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
   styleUrls: ['./managepositiveinput.component.css'],
 })
 export class ManagepositiveinputComponent {
-  responseSelect;
+  responseSelect: any;
   constructor(private http: HttpClient, private _router: Router) {
     this.http
       .get('http://localhost:3000/regione/1')

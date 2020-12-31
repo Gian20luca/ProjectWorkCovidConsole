@@ -1,75 +1,66 @@
-<div class="container">
+<div class="container" style="margin-bottom: -30px;">
   <h2>Gestione soglie</h2>
   <div class="row">
-    <div class="offset-md-3 col-md-6 offset-md-3">
-      <form
-      *ngIf="response"
-        #f="ngForm"
-        class="card card-body mt-3"
-        (ngSubmit)="onSubmit(f.value)"
-      >
-        <label>Soglia inferiore:</label>
-        <input
-          name="minDeathsThresholds"
-          [ngModel]=response.minDeathsThresholds
-          type="number"
-          min="0"
-          max="99"
-          class="form-control"
-          placeholder="Inserisci soglia inferiore"
-          id="minDeathsThresholds"
-        />
-        <br />
-        <label>Soglia Superiore:</label>
-        <input
-          name="maxDeathsThresholds"
-          [ngModel]=response.maxDeathsThresholds
-          type="number"
-          min="0"
-          max="100"
-          class="form-control"
-          placeholder="Inserisci soglia superiore"
-          id="maxDeathsThresholds"
+    <div class="offset-md-2 col-md-8 offset-md-2">
 
-        />
-        <br />
-        <label>Modifica Colore Primo Range</label>
+      <form *ngIf="response" #f="ngForm" class="card card-body mt-3 form-group" (ngSubmit)="onSubmit(f.value)">
 
-        <input
-          type="color"
-          name="minColorDeathsThresholds"
-          [ngModel]="response.minColorDeathsThresholds"
-          class="form-control"
-          id="minColorDeathsThresholds"
-        />
+        <div class="row">
+          <div class="col-md-6">
+            <label>Soglia inferiore:</label>
+            <input name="minDeathsThresholds" [ngModel]="response.minDeathsThresholds" type="number" min="0" max="99"
+              class="form-control" placeholder="Inserisci soglia inferiore" id="minDeathsThresholds" />
 
-        <br />
+          </div>
 
-        <label>Modifica Colore Secondo Range</label>
-        <input
-          type="color"
-          name="mediumColorDeathsThresholds"
-          [ngModel]="response.mediumColorDeathsThresholds"
-          class="form-control"
-          id="mediumColorDeathsThresholds">
-        <br />
+          <div class="col-md-6">
+            <label>Modifica Colore Primo Range</label>
 
-        <label>Modifica Colore Terzo Range</label>
-        <input
-          type="color"
-          name="maxColorDeathsThresholds"
-          [ngModel]="response.maxColorDeathsThresholds"
-          class="form-control"
-          id="maxColorDeathsThresholds">
-        <br />
-        <button
-          class="btn"
-          [disabled]="f.invalid"
-          [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }"
-        >
-          Salva
-        </button>
+            <input type="color" name="minColorDeathsThresholds" [ngModel]="response.minColorDeathsThresholds"
+              class="form-control" id="minColorDeathsThresholds" />
+
+          </div>
+        </div>
+        <br>
+        <div class="row">
+
+          <div class="col-md-6">
+            <label>Soglia Superiore:</label>
+            <input name="maxDeathsThresholds" [ngModel]="response.maxDeathsThresholds" type="number" min="0" max="100"
+              class="form-control" placeholder="Inserisci soglia superiore" id="maxDeathsThresholds" />
+
+          </div>
+          <div class="col-md-6">
+            <label>Modifica Colore Secondo Range</label>
+            <input type="color" name="mediumColorDeathsThresholds" [ngModel]="response.mediumColorDeathsThresholds"
+              class="form-control" id="mediumColorDeathsThresholds" />
+
+          </div>
+
+
+        </div>
+        <br>
+        <div class="row">
+          <div class="offset-md-6 col-md-6">
+            <label>Modifica Colore Terzo Range</label>
+            <input type="color" name="maxColorDeathsThresholds" [ngModel]="response.maxColorDeathsThresholds"
+              class="form-control" id="maxColorDeathsThresholds" />
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+          <div class=" col-md-10 ">
+            <button class="btn btn-block" [disabled]="f.invalid"
+              [ngClass]="{ 'btn-success': f.valid, 'btn-warning': f.invalid }">
+              Salva
+            </button>
+          </div>
+        </div>
+
       </form>
+
+
+
     </div>
   </div>
 </div>

@@ -9,7 +9,7 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
   styleUrls: ['./manageasymptomaticinput.component.css'],
 })
 export class ManageasymptomaticinputComponent {
-   responseSelect;
+   responseSelect: any;
   constructor(private http: HttpClient, private _router: Router) {
     this.http
       .get('http://localhost:3000/regione/1')
