@@ -3,10 +3,14 @@
   font-size: 20px;
   font-weight: 600;
 }
-li {
+a{
+  color:white;
   font-size: 18px;
+  list-style:none;
+  margin-right: 15px;
 }
-li:hover {
+a:hover{
+  text-decoration: none;
   font-weight: bold;
 }
 
