@@ -9,7 +9,7 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
   styleUrls: ['./manageasymptomaticinput.component.css'],
 })
 export class ManageasymptomaticinputComponent {
-   responseSelect: any;
+  responseSelect: any;
   constructor(private http: HttpClient, private _router: Router) {
     this.http
       .get('http://localhost:3000/regione/1')
@@ -17,45 +17,48 @@ export class ManageasymptomaticinputComponent {
   }
 
   onSubmit(value: any) {
-
-    if(value.asymptomatic < this.responseSelect.positive && value.asymptomatic > 0){
-    this.http
-      .patch('http://localhost:3000/regione/' + value.id, value)
-      .subscribe(() => {
+    if (
+      value.asymptomatic < this.responseSelect.asymptomatic &&
+      value.asymptomatic > 0 &&
+      value.asymptomatic !== this.responseSelect.asymptomatic
+    ) {
+      this.http
+        .patch('http://localhost:3000/regione/' + value.id, value)
+        .subscribe(() => {});
+      swal(
+        {
+          title: 'Salvataggio avvenuto con successo',
+          text: 'I tuoi dati sono stati cambiati!',
+          type: 'success',
+          confirmButtonText: 'Vai alla pagina principale',
+        },
+        () => {
+          this._router.navigate(['/mapAsymptomatic']);
+        }
+      );
+    } else if (value.asymptomatic < 0) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'Gli asintomatici non possono essere minori di 0',
+        type: 'error',
+        confirmButtonText: 'Riprova',
       });
-    swal(
-      {
-        title: 'Salvataggio avvenuto con successo',
-        text: 'I tuoi dati sono stati cambiati!',
-        type: 'success',
-        confirmButtonText: 'Vai alla pagina principale',
-      },
-      () => {
-        this._router.navigate(['/mapAsymptomatic']);
-      }
-    );
-  }
-  else if(value.asymptomatic < 0){
-    swal(
-      {
+    } else if (value.asymptomatic === this.responseSelect.asymptomatic) {
+      swal({
         title: 'Salvataggio non avvenuto',
-        text: "Gli asintomatici non possono essere minori di 0",
+        text: 'Questi dati sono già inseriti',
         type: 'error',
         confirmButtonText: 'Riprova',
-      }
-    );
-  }
-  else {
-    swal(
-      {
+      });
+    } else {
+      swal({
         title: 'Salvataggio non avvenuto',
-        text: "Gli asintomatici non possono essere maggiori dei positivi",
+        text: 'Gli asintomatici non possono essere maggiori dei positivi',
         type: 'error',
         confirmButtonText: 'Riprova',
-      }
-    );
+      });
+    }
   }
-}
 
   onChanged(value: any) {
     this.http

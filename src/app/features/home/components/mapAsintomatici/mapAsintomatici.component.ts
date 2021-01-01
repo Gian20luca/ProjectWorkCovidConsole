@@ -212,7 +212,7 @@ export class MapAsintomaticiComponent implements OnInit {
             colors[i] +
             ';font-size:18px;"></i> ' +
             thresholds[i] +
-            '% -' +
+            '% - ' +
             thresholds[i + 1] +
             '%<br>';
         }

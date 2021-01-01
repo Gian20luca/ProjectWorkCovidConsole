@@ -1,4 +1,4 @@
-<div class="container" style="margin-bottom: -30px;">
+<div class="container" style="margin-bottom: -70px;">
   <h2>Gestione soglie</h2>
   <div class="row">
     <div class="offset-md-2 col-md-8 offset-md-2">
@@ -8,6 +8,9 @@
         <div class="row">
           <div class="col-md-6">
             <label>Soglia inferiore:</label>
+            <br>
+            <small *ngIf="f.value.minDeathsThresholds === response.minDeathsThresholds">Soglia
+              attuale:</small>
             <input name="minDeathsThresholds" [ngModel]="response.minDeathsThresholds" type="number" min="0" max="99"
               class="form-control" placeholder="Inserisci soglia inferiore" id="minDeathsThresholds" />
 
@@ -15,7 +18,9 @@
 
           <div class="col-md-6">
             <label>Modifica Colore Primo Range</label>
-
+            <br>
+            <small *ngIf="f.value.minColorDeathsThresholds === response.minColorDeathsThresholds">Colore
+              attuale:</small>
             <input type="color" name="minColorDeathsThresholds" [ngModel]="response.minColorDeathsThresholds"
               class="form-control" id="minColorDeathsThresholds" />
 
@@ -26,12 +31,18 @@
 
           <div class="col-md-6">
             <label>Soglia Superiore:</label>
+            <br>
+            <small *ngIf="f.value.maxDeathsThresholds === response.maxDeathsThresholds">Soglia
+              attuale:</small>
             <input name="maxDeathsThresholds" [ngModel]="response.maxDeathsThresholds" type="number" min="0" max="100"
               class="form-control" placeholder="Inserisci soglia superiore" id="maxDeathsThresholds" />
 
           </div>
           <div class="col-md-6">
             <label>Modifica Colore Secondo Range</label>
+            <br>
+            <small *ngIf="f.value.mediumColorDeathsThresholds === response.mediumColorDeathsThresholds">Colore
+              attuale:</small>
             <input type="color" name="mediumColorDeathsThresholds" [ngModel]="response.mediumColorDeathsThresholds"
               class="form-control" id="mediumColorDeathsThresholds" />
 
@@ -43,6 +54,9 @@
         <div class="row">
           <div class="offset-md-6 col-md-6">
             <label>Modifica Colore Terzo Range</label>
+            <br>
+            <small *ngIf="f.value.maxColorDeathsThresholds === response.maxColorDeathsThresholds">Colore
+              attuale:</small>
             <input type="color" name="maxColorDeathsThresholds" [ngModel]="response.maxColorDeathsThresholds"
               class="form-control" id="maxColorDeathsThresholds" />
           </div>

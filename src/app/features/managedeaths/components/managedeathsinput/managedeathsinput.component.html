@@ -44,6 +44,8 @@
         <br />
 
         <label>N° Decessi:</label>
+        <small *ngIf="f.value.deaths === responseSelect?.deaths">Decessi
+          attuali:</small>
         <input
           name="deaths"
           [ngModel]="responseSelect?.deaths"

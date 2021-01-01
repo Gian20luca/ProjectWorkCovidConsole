@@ -17,47 +17,48 @@ export class ManagepositiveinputComponent {
   }
 
   onSubmit(value: any) {
-
-    if(value.positive < this.responseSelect.population && value.positive > 0){
-    this.http
-      .patch('http://localhost:3000/regione/' + value.id, value)
-      .subscribe(() => {
-      });
-    swal(
-      {
-        title: 'Salvataggio avvenuto con successo',
-        text: 'I tuoi dati sono stati cambiati!',
-        type: 'success',
-        confirmButtonText: 'Vai alla pagina principale',
-      },
-      () => {
-        this._router.navigate(['/mapPositive']);
-      }
-    );
-  }
-
-  else if(value.positive < 0){
-    swal(
-      {
+    if (
+      value.positive < this.responseSelect.population &&
+      value.positive > 0 &&
+      value.positive !== this.responseSelect.positive
+    ) {
+      this.http
+        .patch('http://localhost:3000/regione/' + value.id, value)
+        .subscribe(() => {});
+      swal(
+        {
+          title: 'Salvataggio avvenuto con successo',
+          text: 'I tuoi dati sono stati cambiati!',
+          type: 'success',
+          confirmButtonText: 'Vai alla pagina principale',
+        },
+        () => {
+          this._router.navigate(['/mapPositive']);
+        }
+      );
+    } else if (value.positive < 0) {
+      swal({
         title: 'Salvataggio non avvenuto',
-        text: "I positivi non possono essere minori di 0",
+        text: 'I positivi non possono essere minori di 0',
         type: 'error',
         confirmButtonText: 'Riprova',
-      }
-    );
-  }
-
-  else {
-    swal(
-      {
+      });
+    } else if (value.positive === this.responseSelect.positive) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'Questi dati sono già inseriti',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else {
+      swal({
         title: 'Salvataggio non avvenuto',
         text: "I positivi non possono essere maggiori dell' intera popolazione",
         type: 'error',
         confirmButtonText: 'Riprova',
-      }
-    );
+      });
+    }
   }
-}
 
   onChanged(value: any) {
     this.http

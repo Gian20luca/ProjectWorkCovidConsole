@@ -9,7 +9,7 @@ import swal from 'bootstrap-sweetalert/dist/sweetalert.js';
   styleUrls: ['./manageasymptomaticthresholds.component.css'],
 })
 export class ManageasymptomaticthresholdsComponent {
-  response:any;
+  response: any;
 
   constructor(private http: HttpClient, private _router: Router) {
     this.http
@@ -24,10 +24,22 @@ export class ManageasymptomaticthresholdsComponent {
       value.maxAsymptomaticThresholds > 0 &&
       value.minAsymptomaticThresholds < 99 &&
       value.maxAsymptomaticThresholds < 100 &&
-      value.minColorAsymptomaticThresholds !== value.maxColorAsymptomaticThresholds &&
+      value.minColorAsymptomaticThresholds !==
+        value.maxColorAsymptomaticThresholds &&
       value.minColorAsymptomaticThresholds !==
         value.mediumColorAsymptomaticThresholds &&
-      value.mediumColorAsymptomaticThresholds !== value.maxColorAsymptomaticThresholds
+      value.mediumColorAsymptomaticThresholds !==
+        value.maxColorAsymptomaticThresholds &&
+      (value.minAsymptomaticThresholds !==
+        this.response.minAsymptomaticThresholds ||
+        value.maxAsymptomaticThresholds !==
+          this.response.maxAsymptomaticThresholds ||
+        value.minColorAsymptomaticThresholds !==
+          this.response.minColorAsymptomaticThresholds ||
+        value.mediumColorAsymptomaticThresholds !==
+          this.response.mediumColorAsymptomaticThresholds ||
+        value.maxColorAsymptomaticThresholds !==
+          this.response.maxColorAsymptomaticThresholds)
     ) {
       this.http
         .patch('http://localhost:3000/soglie/3', value)
@@ -49,10 +61,12 @@ export class ManageasymptomaticthresholdsComponent {
       value.maxAsymptomaticThresholds > 0 &&
       value.minAsymptomaticThresholds < 99 &&
       value.maxAsymptomaticThresholds < 100 &&
-      value.minColorAsymptomaticThresholds !== value.maxColorAsymptomaticThresholds &&
+      value.minColorAsymptomaticThresholds !==
+        value.maxColorAsymptomaticThresholds &&
       value.minColorAsymptomaticThresholds !==
         value.mediumColorAsymptomaticThresholds &&
-      value.mediumColorAsymptomaticThresholds !== value.maxColorAsymptomaticThresholds
+      value.mediumColorAsymptomaticThresholds !==
+        value.maxColorAsymptomaticThresholds
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
@@ -94,10 +108,12 @@ export class ManageasymptomaticthresholdsComponent {
       value.minAsymptomaticThresholds === value.maxAsymptomaticThresholds &&
       value.minAsymptomaticThresholds >= 0 &&
       value.maxAsymptomaticThresholds >= 0 &&
-      value.minColorAsymptomaticThresholds !== value.maxColorAsymptomaticThresholds &&
+      value.minColorAsymptomaticThresholds !==
+        value.maxColorAsymptomaticThresholds &&
       value.minColorAsymptomaticThresholds !==
         value.mediumColorAsymptomaticThresholds &&
-      value.mediumColorAsymptomaticThresholds !== value.maxColorAsymptomaticThresholds
+      value.mediumColorAsymptomaticThresholds !==
+        value.maxColorAsymptomaticThresholds
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
@@ -181,20 +197,23 @@ export class ManageasymptomaticthresholdsComponent {
         confirmButtonText: 'Riprova',
       });
     } else if (
-      ((value.minAsymptomaticThresholds < 0 || value.maxAsymptomaticThresholds < 0) &&
+      ((value.minAsymptomaticThresholds <= 0 ||
+        value.maxAsymptomaticThresholds <= 0) &&
         value.minColorAsymptomaticThresholds ===
           value.maxColorAsymptomaticThresholds) ||
-      ((value.minAsymptomaticThresholds < 0 || value.maxAsymptomaticThresholds < 0) &&
+      ((value.minAsymptomaticThresholds <= 0 ||
+        value.maxAsymptomaticThresholds <= 0) &&
         value.minColorAsymptomaticThresholds ===
           value.mediumColorAsymptomaticThresholds) ||
-      ((value.minAsymptomaticThresholds < 0 || value.maxAsymptomaticThresholds < 0) &&
+      ((value.minAsymptomaticThresholds <= 0 ||
+        value.maxAsymptomaticThresholds <= 0) &&
         value.mediumColorAsymptomaticThresholds ===
           value.maxColorAsymptomaticThresholds)
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
         text:
-          'La soglia inserita non può essere minore di 0 e i colori inseriti non possono essere uguali!',
+          'La soglia inserita non può essere minore o uguale a 0 e i colori inseriti non possono essere uguali!',
         type: 'error',
         confirmButtonText: 'Riprova',
       });
@@ -219,19 +238,22 @@ export class ManageasymptomaticthresholdsComponent {
         confirmButtonText: 'Riprova',
       });
     } else if (
-      ((value.minAsymptomaticThresholds < 0 || value.maxAsymptomaticThresholds < 0) &&
+      ((value.minAsymptomaticThresholds <= 0 ||
+        value.maxAsymptomaticThresholds <= 0) &&
         value.minColorAsymptomaticThresholds !==
           value.maxColorAsymptomaticThresholds) ||
-      ((value.minAsymptomaticThresholds < 0 || value.maxAsymptomaticThresholds < 0) &&
+      ((value.minAsymptomaticThresholds <= 0 ||
+        value.maxAsymptomaticThresholds <= 0) &&
         value.minColorAsymptomaticThresholds !==
           value.mediumColorAsymptomaticThresholds) ||
-      ((value.minAsymptomaticThresholds < 0 || value.maxAsymptomaticThresholds < 0) &&
+      ((value.minAsymptomaticThresholds <= 0 ||
+        value.maxAsymptomaticThresholds <= 0) &&
         value.mediumColorAsymptomaticThresholds !==
           value.maxColorAsymptomaticThresholds)
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
-        text: 'La soglia inserita non può essere minore di 0!',
+        text: 'La soglia inserita non può essere minore o uguale a 0!',
         type: 'error',
         confirmButtonText: 'Riprova',
       });
@@ -278,13 +300,16 @@ export class ManageasymptomaticthresholdsComponent {
         confirmButtonText: 'Riprova',
       });
     } else if (
-      ((value.minAsymptomaticThresholds > 98 || value.maxAsymptomaticThresholds > 99) &&
+      ((value.minAsymptomaticThresholds > 98 ||
+        value.maxAsymptomaticThresholds > 99) &&
         value.minColorAsymptomaticThresholds ===
           value.maxColorAsymptomaticThresholds) ||
-      ((value.minAsymptomaticThresholds > 99 || value.maxAsymptomaticThresholds > 99) &&
+      ((value.minAsymptomaticThresholds > 99 ||
+        value.maxAsymptomaticThresholds > 99) &&
         value.minColorAsymptomaticThresholds ===
           value.mediumColorAsymptomaticThresholds) ||
-      ((value.minAsymptomaticThresholds > 98 || value.maxAsymptomaticThresholds > 99) &&
+      ((value.minAsymptomaticThresholds > 98 ||
+        value.maxAsymptomaticThresholds > 99) &&
         value.mediumColorAsymptomaticThresholds ===
           value.maxColorAsymptomaticThresholds)
     ) {
@@ -296,19 +321,40 @@ export class ManageasymptomaticthresholdsComponent {
         confirmButtonText: 'Riprova',
       });
     } else if (
-      ((value.minAsymptomaticThresholds > 98 || value.maxAsymptomaticThresholds > 99) &&
+      ((value.minAsymptomaticThresholds > 98 ||
+        value.maxAsymptomaticThresholds > 99) &&
         value.minColorAsymptomaticThresholds !==
           value.maxColorAsymptomaticThresholds) ||
-      ((value.minAsymptomaticThresholds > 98 || value.maxAsymptomaticThresholds > 99) &&
+      ((value.minAsymptomaticThresholds > 98 ||
+        value.maxAsymptomaticThresholds > 99) &&
         value.minColorAsymptomaticThresholds !==
           value.mediumColorAsymptomaticThresholds) ||
-      ((value.minAsymptomaticThresholds > 98 || value.maxAsymptomaticThresholds > 99) &&
+      ((value.minAsymptomaticThresholds > 98 ||
+        value.maxAsymptomaticThresholds > 99) &&
         value.mediumColorAsymptomaticThresholds !==
           value.maxColorAsymptomaticThresholds)
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
         text: 'La soglia inserita non può essere maggiore o uguale a 99/100!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      value.minAsymptomaticThresholds ===
+        this.response.minAsymptomaticThresholds &&
+      value.maxAsymptomaticThresholds ===
+        this.response.maxAsymptomaticThresholds &&
+      value.minColorAsymptomaticThresholds ===
+        this.response.minColorAsymptomaticThresholds &&
+      value.mediumColorAsymptomaticThresholds ===
+        this.response.mediumColorAsymptomaticThresholds &&
+      value.maxColorAsymptomaticThresholds ===
+        this.response.maxColorAsymptomaticThresholds
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'Questi dati sono già inseriti',
         type: 'error',
         confirmButtonText: 'Riprova',
       });

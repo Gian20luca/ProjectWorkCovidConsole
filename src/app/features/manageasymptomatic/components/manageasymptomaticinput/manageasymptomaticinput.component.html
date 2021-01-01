@@ -45,6 +45,8 @@
         <br />
 
         <label>N° Asintomatici:</label>
+        <small *ngIf="f.value.asymptomatic === responseSelect?.asymptomatic">Asintomatici
+          attuali:</small>
         <input
           name="asymptomatic"
           [ngModel]="responseSelect?.asymptomatic"
@@ -57,7 +59,7 @@
           #asymptomatic="ngModel"
           [ngClass]="{ 'is-invalid': asymptomatic.invalid && f.dirty }"
         />
-        <small>(Positivi: {{responseSelect?.positive}})</small>
+        <small style="margin-top:13px;">(Positivi: {{responseSelect?.positive}})</small>
         <br />
         <button
           class="btn"

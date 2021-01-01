@@ -23,7 +23,7 @@
       <div class="modal-header">
         <img [src]="dettagliRegione.stemmaSvg" weight="60"
           height="80" style="margin-right: 20px;">
-        <h2 class="modal-title">{{ dettagliRegione.name }}</h2>
+          <h2 class="modal-title">{{ dettagliRegione.name }}</h2>
         <button type="button" class="close" (click)="closeShowDetails()">
           <span> &times;</span>
         </button>
@@ -33,6 +33,15 @@
         <p>Positivi: {{ dettagliRegione.positive }}</p>
         <p>Positivi su popolazione: {{ dettagliRegione.positive / dettagliRegione.population * 100 | number:'1.1-2'}}%</p>
       </div>
+      <div class="modal-footer justify-content-between">
+        <div>
+        <a [href]="dettagliRegione.sitoRegione" target="_blank">Sito ufficiale regione</a>
+      </div>
+        <div>
+      <a [href]="dettagliRegione.uslRegione" target="_blank">Elenco ASL</a>
+      <a *ngIf="dettagliRegione.uslRegione2" style="margin-left: 12px;" [href]="dettagliRegione.uslRegione2" target="_blank">Elenco ASL 2</a>
+    </div>
+      </div>
+      </div>
     </div>
   </div>
-</div>

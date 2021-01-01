@@ -31,7 +31,18 @@
       <div class="modal-body">
         <p>Popolazione: {{ dettagliRegione.population }}</p>
         <p>Asintomatici: {{ dettagliRegione.asymptomatic }}</p>
+        <p>Positivi: {{ dettagliRegione.positive }}</p>
         <p>Asintomatici su positivi: {{ dettagliRegione.asymptomatic / dettagliRegione.positive * 100 | number:'1.1-2'}}%</p>
+        <p>Asintomatici su popolazione: {{ dettagliRegione.asymptomatic / dettagliRegione.population * 100 | number:'1.1-2'}}%</p>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <div>
+        <a [href]="dettagliRegione.sitoRegione" target="_blank">Sito ufficiale regione</a>
+      </div>
+        <div>
+      <a [href]="dettagliRegione.uslRegione" target="_blank">Elenco ASL</a>
+      <a *ngIf="dettagliRegione.uslRegione2" style="margin-left: 12px;" [href]="dettagliRegione.uslRegione2" target="_blank">Elenco ASL 2</a>
+    </div>
       </div>
     </div>
   </div>

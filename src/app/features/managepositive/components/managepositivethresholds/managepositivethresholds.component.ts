@@ -26,7 +26,16 @@ export class ManagepositivethresholdsComponent {
       value.minColorPositiveThresholds !== value.maxColorPositiveThresholds &&
       value.minColorPositiveThresholds !==
         value.mediumColorPositiveThresholds &&
-      value.mediumColorPositiveThresholds !== value.maxColorPositiveThresholds
+      value.mediumColorPositiveThresholds !==
+        value.maxColorPositiveThresholds &&
+      (value.minPositiveThresholds !== this.response.minPositiveThresholds ||
+        value.maxPositiveThresholds !== this.response.maxPositiveThresholds ||
+        value.minColorPositiveThresholds !==
+          this.response.minColorPositiveThresholds ||
+        value.mediumColorPositiveThresholds !==
+          this.response.mediumColorPositiveThresholds ||
+        value.maxColorPositiveThresholds !==
+          this.response.maxColorPositiveThresholds)
     ) {
       this.http
         .patch('http://localhost:3000/soglie/1', value)
@@ -180,20 +189,20 @@ export class ManagepositivethresholdsComponent {
         confirmButtonText: 'Riprova',
       });
     } else if (
-      ((value.minPositiveThresholds < 0 || value.maxPositiveThresholds < 0) &&
+      ((value.minPositiveThresholds <= 0 || value.maxPositiveThresholds <= 0) &&
         value.minColorPositiveThresholds ===
           value.maxColorPositiveThresholds) ||
-      ((value.minPositiveThresholds < 0 || value.maxPositiveThresholds < 0) &&
+      ((value.minPositiveThresholds <= 0 || value.maxPositiveThresholds <= 0) &&
         value.minColorPositiveThresholds ===
           value.mediumColorPositiveThresholds) ||
-      ((value.minPositiveThresholds < 0 || value.maxPositiveThresholds < 0) &&
+      ((value.minPositiveThresholds <= 0 || value.maxPositiveThresholds <= 0) &&
         value.mediumColorPositiveThresholds ===
           value.maxColorPositiveThresholds)
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
         text:
-          'La soglia inserita non può essere minore di 0 e i colori inseriti non possono essere uguali!',
+          'La soglia inserita non può essere minore o uguale a 0 e i colori inseriti non possono essere uguali!',
         type: 'error',
         confirmButtonText: 'Riprova',
       });
@@ -218,19 +227,19 @@ export class ManagepositivethresholdsComponent {
         confirmButtonText: 'Riprova',
       });
     } else if (
-      ((value.minPositiveThresholds < 0 || value.maxPositiveThresholds < 0) &&
+      ((value.minPositiveThresholds <= 0 || value.maxPositiveThresholds <= 0) &&
         value.minColorPositiveThresholds !==
           value.maxColorPositiveThresholds) ||
-      ((value.minPositiveThresholds < 0 || value.maxPositiveThresholds < 0) &&
+      ((value.minPositiveThresholds <= 0 || value.maxPositiveThresholds <= 0) &&
         value.minColorPositiveThresholds !==
           value.mediumColorPositiveThresholds) ||
-      ((value.minPositiveThresholds < 0 || value.maxPositiveThresholds < 0) &&
+      ((value.minPositiveThresholds <= 0 || value.maxPositiveThresholds <= 0) &&
         value.mediumColorPositiveThresholds !==
           value.maxColorPositiveThresholds)
     ) {
       swal({
         title: 'Salvataggio non avvenuto',
-        text: 'La soglia inserita non può essere minore di 0!',
+        text: 'La soglia inserita non può essere minore o uguale a 0!',
         type: 'error',
         confirmButtonText: 'Riprova',
       });
@@ -308,6 +317,22 @@ export class ManagepositivethresholdsComponent {
       swal({
         title: 'Salvataggio non avvenuto',
         text: 'La soglia inserita non può essere maggiore o uguale a 99/100!',
+        type: 'error',
+        confirmButtonText: 'Riprova',
+      });
+    } else if (
+      value.minPositiveThresholds === this.response.minPositiveThresholds &&
+      value.maxPositiveThresholds === this.response.maxPositiveThresholds &&
+      value.minColorPositiveThresholds ===
+        this.response.minColorPositiveThresholds &&
+      value.mediumColorPositiveThresholds ===
+        this.response.mediumColorPositiveThresholds &&
+      value.maxColorPositiveThresholds ===
+        this.response.maxColorPositiveThresholds
+    ) {
+      swal({
+        title: 'Salvataggio non avvenuto',
+        text: 'Questi dati sono già inseriti',
         type: 'error',
         confirmButtonText: 'Riprova',
       });

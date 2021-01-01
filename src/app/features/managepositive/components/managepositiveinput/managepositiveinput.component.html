@@ -45,6 +45,8 @@
         <br />
 
         <label>N° Positivi:</label>
+        <small *ngIf="f.value.positive === responseSelect?.positive">Positivi
+          attuali:</small>
         <input
           name="positive"
           [ngModel]="responseSelect?.positive"
@@ -57,7 +59,7 @@
           #positive="ngModel"
           [ngClass]="{ 'is-invalid': positive.invalid && f.dirty }"
         />
-        <small>(Popolazione: {{responseSelect?.population}})</small>
+        <small style="margin-top:13px;">(Popolazione: {{responseSelect?.population}})</small>
         <br />
         <button
           class="btn"
