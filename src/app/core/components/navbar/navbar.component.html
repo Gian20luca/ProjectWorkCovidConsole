@@ -1,22 +1,30 @@
 <nav class="navbar navbar-dark fixed-top backgroundNav">
-  <div class="container-fluid">
-    <a class="navbar-brand title" routerLink="home" routerLinkActive="active">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/SARS-CoV-2_without_background.png" width="47"
-        height="45" class="d-inline-block align-top" alt="" loading="lazy" style="margin-right:15px;" />
-      Project work Covid-19 Console
-    </a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-      data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </div>
-  <div class="collapse backgroundNav" id="navbarToggleExternalContent">
-    <a routerLink="managepositive" routerLinkActive="active">Gestisci positivi</a>
-    <a routerLink="managedeaths" routerLinkActive="active">Gestisci decessi</a>
-    <a routerLink="manageasymptomatic" routerLinkActive="active">Gestisci asintomatici</a>
+  <a class="navbar-brand title" routerLink="home" routerLinkActive="active">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/SARS-CoV-2_without_background.png" width="47"
+      height="45" class="d-inline-block align-top" alt="" loading="lazy" style="margin-right:15px;" />
+    Project work Covid-19 Console
+  </a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+    data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span style="font-size: 17px;" class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse backgroundNav" id="navbarToggleExternalContent" data-toggle="collapse"
+    data-target="#navbarToggleExternalContent">
+    <ul class="navbar-nav flex-row-reverse">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="manageasymptomatic" routerLinkActive="active">Gestisci asintomatici</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="managedeaths" routerLinkActive="active">Gestisci decessi</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="managepositive" routerLinkActive="active">Gestisci positivi</a>
+      </li>
+    </ul>
   </div>
 </nav>
+
 
 <!-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top backgroundNav">
   <div class="container-fluid">
