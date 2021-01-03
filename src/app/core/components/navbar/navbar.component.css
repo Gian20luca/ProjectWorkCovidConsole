@@ -3,17 +3,24 @@
   font-size: 20px;
   font-weight: 600;
 }
-a{
-  color:white;
+a {
+  color: white;
   font-size: 18px;
-  list-style:none;
+  list-style: none;
   margin-right: 15px;
 }
-a:hover{
+a:hover {
   text-decoration: none;
   font-weight: bold;
 }
 
 .backgroundNav {
   background-color: #2d3246;
+}
+.marginBorderDivCollapse {
+  margin-top: 5px;
+  border-top: 1px white solid;
+}
+.iconNavbarCollapse {
+  font-size: 15px;
 }
