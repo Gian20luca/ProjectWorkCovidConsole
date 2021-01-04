@@ -4,9 +4,9 @@
       "id": 1,
       "name": "Piemonte",
       "population": 4329008,
-      "positive": 3135332,
-      "deaths": 2736382,
-      "asymptomatic": 2935334,
+      "positive": 2493848,
+      "deaths": 2847393,
+      "asymptomatic": 3473674,
       "stemmaSvg": "http://www.tecnichenormative.it/bandiere/regionali/piemonte.png",
       "uslRegione": "http://www.salute.gov.it/portale/temi/p2_6_11.jsp?lingua=italiano&area=statisticheSSN&menu=vuoto&regione=010",
       "sitoRegione": "https://www.regione.piemonte.it/web/"

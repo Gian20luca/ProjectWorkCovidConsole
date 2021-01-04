@@ -18,7 +18,7 @@ export class ManageasymptomaticinputComponent {
 
   onSubmit(value: any) {
     if (
-      value.asymptomatic < this.responseSelect.asymptomatic &&
+      value.asymptomatic <= this.responseSelect.positive &&
       value.asymptomatic > 0 &&
       value.asymptomatic !== this.responseSelect.asymptomatic
     ) {

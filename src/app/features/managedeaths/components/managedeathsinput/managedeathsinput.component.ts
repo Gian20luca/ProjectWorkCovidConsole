@@ -17,7 +17,7 @@ export class ManagedeathsinputComponent {
   }
   onSubmit(value: any) {
     if (
-      value.deaths < this.responseSelect.population &&
+      value.deaths <= this.responseSelect.population &&
       value.deaths > 0 &&
       value.deaths !== this.responseSelect.deaths
     ) {

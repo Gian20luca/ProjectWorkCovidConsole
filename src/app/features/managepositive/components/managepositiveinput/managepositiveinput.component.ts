@@ -18,7 +18,7 @@ export class ManagepositiveinputComponent {
 
   onSubmit(value: any) {
     if (
-      value.positive < this.responseSelect.population &&
+      value.positive <= this.responseSelect.population &&
       value.positive > 0 &&
       value.positive !== this.responseSelect.positive
     ) {
