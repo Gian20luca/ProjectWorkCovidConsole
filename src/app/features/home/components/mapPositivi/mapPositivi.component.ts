@@ -61,27 +61,31 @@ export class MapPositiviComponent implements OnInit {
     };
 
     //recupera i dati della regione
-    const ShowDetails = (e) => {
-      this.dettagliRegione = this.risposta[0][
-        e.target.feature.properties.reg_istat_code_num - 1
-      ];
-      this.cd.detectChanges();
-    };
+    // const ShowDetails = (e) => {
+    //   this.dettagliRegione = this.risposta[0][
+    //     e.target.feature.properties.reg_istat_code_num - 1
+    //   ];
+    //   this.cd.detectChanges();
+    // };
 
     //resetta la funzione highlightFeature
     const resetHighlight = (e) => {
       this.geojson.resetStyle(e.target);
     };
     //al click aumenta lo zoom
-    const zoomToFeature = (e) => {
+    const zoomToFeatureAndShowDetails = (e) => {
       map.fitBounds(e.target.getBounds());
+      this.dettagliRegione = this.risposta[0][
+        e.target.feature.properties.reg_istat_code_num - 1
+      ];
+      this.cd.detectChanges();
     };
     //alla proprieta di L.geojson vengono assegnate direttamente più funzioni direttamente agli eventi
     const onEachFeature = (features, layer) => {
       layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: ShowDetails,
+        click: zoomToFeatureAndShowDetails,
       });
       layer.bindTooltip(features.properties.reg_name);
     };
