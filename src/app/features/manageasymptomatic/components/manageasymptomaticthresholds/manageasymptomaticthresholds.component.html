@@ -11,9 +11,13 @@
             <br>
             <small *ngIf="f.value.minAsymptomaticThresholds === response.minAsymptomaticThresholds">Soglia
               attuale:</small>
+              <div class="input-group mb-3">
             <input name="minAsymptomaticThresholds" [ngModel]="response.minAsymptomaticThresholds" type="number" min="0"
               max="99" class="form-control" placeholder="Inserisci soglia inferiore" id="minAsymptomaticThresholds" />
-
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
           </div>
 
           <div class="col-md-6">
@@ -35,8 +39,13 @@
             <br>
             <small *ngIf="f.value.maxAsymptomaticThresholds === response.maxAsymptomaticThresholds">Soglia
               attuale:</small>
+              <div class="input-group mb-3">
             <input name="maxAsymptomaticThresholds" [ngModel]="response.maxAsymptomaticThresholds" type="number" min="0"
               max="100" class="form-control" placeholder="Inserisci soglia superiore" id="maxAsymptomaticThresholds" />
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
 
           </div>
           <div class="col-md-6">
