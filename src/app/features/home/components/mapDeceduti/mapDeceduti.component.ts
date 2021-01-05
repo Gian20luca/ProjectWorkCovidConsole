@@ -28,6 +28,7 @@ export class MapDeathsComponent implements OnInit {
 
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
 
+
   ngOnInit(): void {
     this.http
       .get('http://localhost:3000/regione')
